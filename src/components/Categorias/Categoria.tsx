@@ -74,19 +74,21 @@ const Categorias = () => {
 
       {/* Gastos Section */}
       <div className="px-6 py-6 border-b border-gray-800">
-        <p className="text-gray-400 text-sm mb-2">Gastos de Outubro</p>
-        <p className="text-white text-4xl font-bold">
+        <p className="text-gray-400 text-sm font-poppins mb-2">
+          Gastos de Outubro
+        </p>
+        <p className="text-white text-4xl font-bold font-poppins">
           R$ {totalSpent.toFixed(2).replace(".", ",")}
         </p>
       </div>
 
       {/* Categories List */}
       <div className="px-6 py-4 pb-25">
-        <div className="space-y-3">
+        <div className="space-y-3 text-sm font-poppins">
           {categories.map((category) => (
-            <div
+            <button
               key={category.id}
-              className="bg-gray-800/50 rounded-2xl p-4 flex items-center justify-between"
+              className="w-full text-left bg-gray-800/50 rounded-2xl p-3 flex items-center justify-between transition-all duration-150 active:scale-95 active:brightness-120"
             >
               <div className="flex items-center gap-4 flex-1">
                 <div className="w-14 h-14 bg-green-600/30 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -94,9 +96,7 @@ const Categorias = () => {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-white font-semibold text-lg">
-                    {category.name}
-                  </h3>
+                  <h3 className="text-white font-semibold">{category.name}</h3>
                   <p className="text-gray-400 text-sm">
                     {category.transactions} transações
                   </p>
@@ -114,7 +114,7 @@ const Categorias = () => {
                   ></div>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
