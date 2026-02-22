@@ -4,19 +4,14 @@ import { MdAirplay } from "react-icons/md";
 import { useEffect } from "react";
 import { animateNavIcon, initializeNavAnimation } from "../../utils/util";
 
-interface HomeNavProps {
+interface HomeProps {
   onNavigate?: (index: number) => void;
 }
 
-const Home = ({ onNavigate }: HomeNavProps) => {
+const Home = ({ onNavigate }: HomeProps) => {
   useEffect(() => {
     initializeNavAnimation();
   }, []);
-
-  const handleNavClick = (index: number) => {
-    animateNavIcon(index);
-    onNavigate?.(index);
-  };
 
   const recentExpenses = [
     {
@@ -108,7 +103,13 @@ const Home = ({ onNavigate }: HomeNavProps) => {
           <span className="text-gray-300 text-xs text-center">Adicionar</span>
         </button>
 
-        <button className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120">
+        <button
+          onClick={() => {
+            animateNavIcon(1);
+            onNavigate?.(1);
+          }}
+          className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120"
+        >
           <div className="w-16 h-16 bg-gray-800 rounded-2xl flex items-center justify-center">
             <svg
               className="w-8 h-8 text-green-500"
@@ -121,7 +122,13 @@ const Home = ({ onNavigate }: HomeNavProps) => {
           <span className="text-gray-300 text-xs text-center">Categorias</span>
         </button>
 
-        <button className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120">
+        <button
+          onClick={() => {
+            animateNavIcon(2);
+            onNavigate?.(2);
+          }}
+          className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120"
+        >
           <div className="w-16 h-16 bg-gray-800 rounded-2xl flex items-center justify-center">
             <svg
               className="w-8 h-8 text-green-500"
@@ -134,7 +141,13 @@ const Home = ({ onNavigate }: HomeNavProps) => {
           <span className="text-gray-300 text-xs text-center">Carteira</span>
         </button>
 
-        <button className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120">
+        <button
+          onClick={() => {
+            animateNavIcon(3);
+            onNavigate?.(3);
+          }}
+          className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120"
+        >
           <div className="w-16 h-16 bg-gray-800 rounded-2xl flex items-center justify-center">
             <svg
               className="w-8 h-8 text-green-500"

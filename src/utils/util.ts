@@ -18,6 +18,19 @@ export const animateNavIcon = (buttonIndex: number): void => {
 };
 
 /**
+ *
+ * função que lida com a navegação dos botões, chamando a animação e a função de callback para navegação e redirecionamento
+ */
+
+export const handleNavClick = (
+  index: number,
+  onNavigate?: (index: number) => void,
+): void => {
+  animateNavIcon(index);
+  onNavigate?.(index);
+};
+
+/**
  * Inicializa o estado ativo do primeiro botão (HOME)
  */
 export const initializeNavAnimation = (): void => {
