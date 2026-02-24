@@ -4,12 +4,14 @@ import { MdAirplay } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { animateNavIcon, initializeNavAnimation } from "../../utils/util";
 import ExpenseDetailModal from "./ExpenseDetailModal";
+import AllExpenses from "./AllExpenses";
 
 interface Expense {
   id: number;
   name: string;
   description: string;
   amount: number;
+  category?: string;
   icon: React.ReactNode;
   bgColor: string;
   iconColor: string;
@@ -22,6 +24,8 @@ interface HomeProps {
 const Home = ({ onNavigate }: HomeProps) => {
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAllExpensesOpen, setIsAllExpensesOpen] = useState(false);
+  const [isFromAllExpenses, setIsFromAllExpenses] = useState(false);
 
   useEffect(() => {
     initializeNavAnimation();
@@ -33,6 +37,7 @@ const Home = ({ onNavigate }: HomeProps) => {
       name: "Dolce Café",
       description: "Hoje, 09:41",
       amount: 4.5,
+      category: "coffee",
       icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
       bgColor: "bg-amber-900/50",
       iconColor: "text-amber-600",
@@ -42,6 +47,7 @@ const Home = ({ onNavigate }: HomeProps) => {
       name: "Lojas Hitech",
       description: "Ontem, 06:20",
       amount: 42.0,
+      category: "shopping",
       icon: <RiShoppingBag2Line className="text-blue-500 w-7 h-7" />,
       bgColor: "bg-blue-900/50",
       iconColor: "text-blue-500",
@@ -51,6 +57,77 @@ const Home = ({ onNavigate }: HomeProps) => {
       name: "Netflix",
       description: "23 de Out, 2023",
       amount: 15.99,
+      category: "entertainment",
+      icon: <MdAirplay className="text-red-500 w-7 h-7" />,
+      bgColor: "bg-red-900/50",
+      iconColor: "text-red-500",
+    },
+    {
+      id: 4,
+      name: "Cafeteria Central",
+      description: "22 de Out, 14:30",
+      amount: 8.75,
+      category: "coffee",
+      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
+      bgColor: "bg-amber-900/50",
+      iconColor: "text-amber-600",
+    },
+    {
+      id: 5,
+      name: "Magazine Luiza",
+      description: "21 de Out, 10:15",
+      amount: 89.9,
+      category: "shopping",
+      icon: <RiShoppingBag2Line className="text-blue-500 w-7 h-7" />,
+      bgColor: "bg-blue-900/50",
+      iconColor: "text-blue-500",
+    },
+    {
+      id: 6,
+      name: "Starbucks",
+      description: "20 de Out, 08:45",
+      amount: 12.5,
+      category: "coffee",
+      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
+      bgColor: "bg-amber-900/50",
+      iconColor: "text-amber-600",
+    },
+    {
+      id: 7,
+      name: "Disney+",
+      description: "19 de Out, 22:00",
+      amount: 29.9,
+      category: "entertainment",
+      icon: <MdAirplay className="text-red-500 w-7 h-7" />,
+      bgColor: "bg-red-900/50",
+      iconColor: "text-red-500",
+    },
+    {
+      id: 8,
+      name: "Mercado Super Aço",
+      description: "18 de Out, 11:20",
+      amount: 156.3,
+      category: "shopping",
+      icon: <RiShoppingBag2Line className="text-blue-500 w-7 h-7" />,
+      bgColor: "bg-blue-900/50",
+      iconColor: "text-blue-500",
+    },
+    {
+      id: 9,
+      name: "Cacau Show",
+      description: "17 de Out, 15:00",
+      amount: 35.0,
+      category: "coffee",
+      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
+      bgColor: "bg-amber-900/50",
+      iconColor: "text-amber-600",
+    },
+    {
+      id: 10,
+      name: "Amazon Prime",
+      description: "16 de Out, 20:30",
+      amount: 14.9,
+      category: "entertainment",
       icon: <MdAirplay className="text-red-500 w-7 h-7" />,
       bgColor: "bg-red-900/50",
       iconColor: "text-red-500",
@@ -179,13 +256,16 @@ const Home = ({ onNavigate }: HomeProps) => {
       <div>
         <div className="flex justify-between items-center mb-4 px-0 font-poppins">
           <h2 className="text-white text-xl font-bold">Compras Recentes</h2>
-          <button className="text-green-500 text-sm font-semibold active:scale-95 transition-all duration-150">
+          <button
+            onClick={() => setIsAllExpensesOpen(true)}
+            className="text-green-500 text-sm font-semibold active:scale-95 transition-all duration-150"
+          >
             Ver todos
           </button>
         </div>
 
         <div className="space-y-3 font-poppins">
-          {recentExpenses.map((expense) => (
+          {recentExpenses.slice(0, 4).map((expense) => (
             <button
               key={expense.id}
               onClick={() => {
@@ -221,9 +301,15 @@ const Home = ({ onNavigate }: HomeProps) => {
       <ExpenseDetailModal
         expense={selectedExpense}
         isOpen={isModalOpen}
+        isFromAllExpenses={isFromAllExpenses}
         onClose={() => {
           setIsModalOpen(false);
           setSelectedExpense(null);
+          // Não fecha AllExpenses se estamos vindo de lá
+          if (!isFromAllExpenses) {
+            setIsAllExpensesOpen(false);
+          }
+          setIsFromAllExpenses(false);
         }}
         onEdit={() => {
           console.log("Editar compra:", selectedExpense?.id);
@@ -234,6 +320,19 @@ const Home = ({ onNavigate }: HomeProps) => {
           // Implementar deleção
           setIsModalOpen(false);
           setSelectedExpense(null);
+          setIsFromAllExpenses(false);
+        }}
+      />
+
+      {/* All Expenses Modal */}
+      <AllExpenses
+        expenses={recentExpenses}
+        isOpen={isAllExpensesOpen}
+        onClose={() => setIsAllExpensesOpen(false)}
+        onSelectExpense={(expense) => {
+          setSelectedExpense(expense);
+          setIsModalOpen(true);
+          setIsFromAllExpenses(true);
         }}
       />
     </div>

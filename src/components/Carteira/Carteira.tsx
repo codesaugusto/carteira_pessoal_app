@@ -40,7 +40,6 @@ const Carteira = () => {
       <div className="flex justify-between items-center px-6 py-6 border-b border-gray-800">
         <div>
           <h1 className="text-white text-3xl font-bold">Carteira</h1>
-          <p className="text-gray-400 text-sm mt-1">Saldo Total Líquido</p>
         </div>
         <button className="w-10 h-10 flex items-center justify-center">
           <svg

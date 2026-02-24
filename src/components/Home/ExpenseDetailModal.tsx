@@ -17,6 +17,7 @@ interface ExpenseDetailModalProps {
   onClose: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  isFromAllExpenses?: boolean;
 }
 
 const ExpenseDetailModal = ({
@@ -25,16 +26,29 @@ const ExpenseDetailModal = ({
   onClose,
   onEdit,
   onDelete,
+  isFromAllExpenses,
 }: ExpenseDetailModalProps) => {
   if (!isOpen || !expense) return null;
 
   return (
     <>
       {/* Overlay */}
-      <div className="fixed inset-0 bg-black/60 z-40" onClick={onClose} />
+      <div
+        className="fixed inset-0 bg-black/60"
+        style={{ zIndex: isFromAllExpenses ? 41 : 40 }}
+        onClick={() => {
+          // Só fecha ao clicar no overlay se não vem de "Ver todos"
+          if (!isFromAllExpenses) {
+            onClose();
+          }
+        }}
+      />
 
       {/* Modal */}
-      <div className="fixed inset-0 z-50 flex items-end">
+      <div
+        className="fixed inset-0 flex items-end"
+        style={{ zIndex: isFromAllExpenses ? 60 : 50 }}
+      >
         <div className="w-full bg-gray-950 rounded-t-3xl p-6 animate-in slide-in-from-bottom-4 shadow-2xl font-poppins">
           {/* Header com Icon e Nome */}
           <div className="flex items-start justify-between gap-4 mb-6 pb-4 border-b border-gray-700">
@@ -115,7 +129,7 @@ const ExpenseDetailModal = ({
               onClick={onClose}
               className="flex-1 bg-green-500/20 hover:bg-green-500/30 text-green-400 font-semibold py-2 rounded-lg transition text-sm"
             >
-              Fechar
+              {isFromAllExpenses ? "Voltar" : "Fechar"}
             </button>
           </div>
         </div>
