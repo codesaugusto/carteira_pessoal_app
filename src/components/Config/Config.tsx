@@ -142,7 +142,7 @@ const Config = ({ initialPage = "menu" }: ConfigProps) => {
                   <h3 className="text-white font-semibold">
                     Limites de Gastos
                   </h3>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-gray-400 text-sm mt-1 pr-2">
                     Alertas ao atingir limites de categoria
                   </p>
                 </div>
@@ -169,7 +169,7 @@ const Config = ({ initialPage = "menu" }: ConfigProps) => {
               <div className="bg-gray-800/40 rounded-xl p-4 border border-gray-700/30 flex items-center justify-between">
                 <div>
                   <h3 className="text-white font-semibold">Assinaturas</h3>
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-gray-400 text-sm mt-1 pr-5">
                     Lembretes de assinaturas vencendo
                   </p>
                 </div>

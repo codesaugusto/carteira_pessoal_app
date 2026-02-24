@@ -289,7 +289,7 @@ const Home = ({ onNavigate }: HomeProps) => {
                   </p>
                 </div>
               </div>
-              <p className="text-white font-bold text-lg text-right">
+              <p className="text-red-500 font-bold text-lg text-right">
                 -R${expense.amount.toFixed(2)}
               </p>
             </button>

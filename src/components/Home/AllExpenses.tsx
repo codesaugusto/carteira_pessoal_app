@@ -37,18 +37,7 @@ const AllExpenses = ({
   const getCategoryFilter = (category: FilterCategory): Expense[] => {
     if (category === "all") return expenses;
 
-    const categoryMap: Record<FilterCategory, string[]> = {
-      all: [],
-      coffee: ["Café", "coffee"],
-      shopping: ["Shopping", "Hitech", "Loja"],
-      entertainment: ["Netflix", "Movie", "Film"],
-    };
-
-    return expenses.filter((exp) =>
-      categoryMap[category].some((term) =>
-        exp.name.toLowerCase().includes(term.toLowerCase()),
-      ),
-    );
+    return expenses.filter((exp) => exp.category === category);
   };
 
   const getSortedExpenses = (expensesToSort: Expense[]): Expense[] => {
@@ -98,9 +87,9 @@ const AllExpenses = ({
             </div>
 
             {/* Total */}
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-white">
               Total:{" "}
-              <span className="text-green-500 font-bold">
+              <span className="text-white font-bold">
                 R${totalAmount.toFixed(2).replace(".", ",")}
               </span>
             </div>
@@ -211,7 +200,7 @@ const AllExpenses = ({
                       </p>
                     </div>
                   </div>
-                  <p className="text-green-500 font-bold text-lg flex-shrink-0">
+                  <p className="text-red-500 font-bold text-lg flex-shrink-0">
                     -R${expense.amount.toFixed(2).replace(".", ",")}
                   </p>
                 </button>

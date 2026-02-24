@@ -78,7 +78,7 @@ const ExpenseDetailModal = ({
             {/* Valor */}
             <div className="flex justify-between items-center">
               <span className="text-gray-400 text-sm">Valor</span>
-              <span className="text-green-500 font-bold text-lg">
+              <span className="text-red-500 font-bold text-lg">
                 -R${expense.amount.toFixed(2).replace(".", ",")}
               </span>
             </div>
