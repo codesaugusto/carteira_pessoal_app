@@ -1,14 +1,28 @@
 import { VscCoffee } from "react-icons/vsc";
 import { RiShoppingBag2Line } from "react-icons/ri";
 import { MdAirplay } from "react-icons/md";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { animateNavIcon, initializeNavAnimation } from "../../utils/util";
+import ExpenseDetailModal from "./ExpenseDetailModal";
+
+interface Expense {
+  id: number;
+  name: string;
+  description: string;
+  amount: number;
+  icon: React.ReactNode;
+  bgColor: string;
+  iconColor: string;
+}
 
 interface HomeProps {
   onNavigate?: (index: number) => void;
 }
 
 const Home = ({ onNavigate }: HomeProps) => {
+  const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     initializeNavAnimation();
   }, []);
@@ -174,6 +188,10 @@ const Home = ({ onNavigate }: HomeProps) => {
           {recentExpenses.map((expense) => (
             <button
               key={expense.id}
+              onClick={() => {
+                setSelectedExpense(expense);
+                setIsModalOpen(true);
+              }}
               className="w-full bg-gray-800/50 rounded-2xl p-3 flex items-center justify-between transition-all duration-150 active:scale-95 active:brightness-120"
             >
               <div className="flex items-center gap-4">
@@ -198,6 +216,26 @@ const Home = ({ onNavigate }: HomeProps) => {
           ))}
         </div>
       </div>
+
+      {/* Modal */}
+      <ExpenseDetailModal
+        expense={selectedExpense}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedExpense(null);
+        }}
+        onEdit={() => {
+          console.log("Editar compra:", selectedExpense?.id);
+          // Implementar edição
+        }}
+        onDelete={() => {
+          console.log("Deletar compra:", selectedExpense?.id);
+          // Implementar deleção
+          setIsModalOpen(false);
+          setSelectedExpense(null);
+        }}
+      />
     </div>
   );
 };
