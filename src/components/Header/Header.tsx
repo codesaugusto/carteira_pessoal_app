@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useNotifications } from "../../utils/notifications";
 import NotificationPanel from "../Notifications/NotificationPanel";
+import Avatar from "../Avatar/Avatar";
 
-const Header = () => {
+interface HeaderProps {
+  onNavigateToProfile?: () => void;
+}
+
+const Header = ({ onNavigateToProfile }: HeaderProps) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { notifications, unreadCount, markAsRead, deleteNotification } =
     useNotifications();
@@ -10,17 +15,16 @@ const Header = () => {
   return (
     <>
       <div className="flex justify-between items-center px-6 py-6">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-gradient-to-br from-orange-300 to-orange-200 flex items-center justify-center">
-            <div className="w-8 h-8 rounded-full bg-orange-400/40"></div>
-          </div>
+        <button
+          onClick={onNavigateToProfile}
+          className="flex items-center gap-4 hover:opacity-80 transition"
+        >
+          <Avatar alt="Carlos Augusto" fallback="CA" size="lg" />
           <div>
-            <p className="text-gray-400 text-sm">Olá,</p>
-
-            {/* NOME DA PESSOA AQUI */}
+            <p className="text-gray-400 text-sm text-left">Olá,</p>
             <p className="text-white text-xl font-semibold">Carlos Augusto</p>
           </div>
-        </div>
+        </button>
         <button
           onClick={() => setIsNotificationOpen(!isNotificationOpen)}
           className="relative w-14 h-14 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700 transition"

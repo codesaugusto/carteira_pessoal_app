@@ -10,6 +10,9 @@ import { NotificationProvider } from "./utils/notifications";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [configInitialPage, setConfigInitialPage] = useState<
+    "menu" | "perfil" | "editar-perfil"
+  >("menu");
 
   const renderPage = () => {
     switch (currentPage) {
@@ -20,16 +23,21 @@ function App() {
       case 2:
         return <Carteira />;
       case 3:
-        return <Config />;
+        return <Config initialPage={configInitialPage} />;
       default:
         return <Home onNavigate={setCurrentPage} />;
     }
   };
 
+  const handleNavigateToProfile = () => {
+    setConfigInitialPage("perfil");
+    setCurrentPage(3);
+  };
+
   return (
     <NotificationProvider>
       <div className="min-h-screen bg-gray-950">
-        <Header />
+        <Header onNavigateToProfile={handleNavigateToProfile} />
         {renderPage()}
         <BottomNav onNavigate={setCurrentPage} />
       </div>
