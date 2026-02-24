@@ -22,8 +22,8 @@ const ConfigMenu = ({ onNavigate }: ConfigMenuProps) => {
         <div className="w-24 h-24 bg-orange-300 rounded-3xl mx-auto mb-4 flex items-center justify-center">
           <span className="text-4xl">👤</span>
         </div>
-        <h2 className="text-2xl font-bold text-white">Alex Johnson</h2>
-        <p className="text-gray-400">alex.johnson@example.com</p>
+        <h2 className="text-2xl font-bold text-white">Carlos Augusto</h2>
+        <p className="text-gray-400">codes.augusto@dev.com</p>
       </div>
 
       {/* Menu de opções */}

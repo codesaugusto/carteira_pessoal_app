@@ -6,6 +6,7 @@ import BottomNav from "./components/BottomNav/BottomNav";
 import Categorias from "./components/Categorias/Categoria";
 import Carteira from "./components/Carteira/Carteira";
 import Config from "./components/Config/Config";
+import { NotificationProvider } from "./utils/notifications";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -26,11 +27,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      <Header />
-      {renderPage()}
-      <BottomNav onNavigate={setCurrentPage} />
-    </div>
+    <NotificationProvider>
+      <div className="min-h-screen bg-gray-950">
+        <Header />
+        {renderPage()}
+        <BottomNav onNavigate={setCurrentPage} />
+      </div>
+    </NotificationProvider>
   );
 }
 
