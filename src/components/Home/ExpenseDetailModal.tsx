@@ -49,7 +49,7 @@ const ExpenseDetailModal = ({
         className="fixed inset-0 flex items-end"
         style={{ zIndex: isFromAllExpenses ? 60 : 50 }}
       >
-        <div className="w-full bg-gray-950 rounded-t-3xl p-6 animate-in slide-in-from-bottom-4 shadow-2xl font-poppins">
+        <div className="w-full md:w-1/3 md:mx-auto bg-gray-950 rounded-t-3xl p-6 animate-in slide-in-from-bottom-4 shadow-2xl font-poppins">
           {/* Header com Icon e Nome */}
           <div className="flex items-start justify-between gap-4 mb-6 pb-4 border-b border-gray-700">
             <div className="flex items-center gap-4">

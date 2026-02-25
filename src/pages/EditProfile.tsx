@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Upload, Save, Camera } from "lucide-react";
 import Avatar from "../components/Avatar/Avatar";
-import { useNotifications } from "../utils/notifications";
+import { useNotifications } from "../hooks/notifications";
 
 interface UserProfile {
   name: string;

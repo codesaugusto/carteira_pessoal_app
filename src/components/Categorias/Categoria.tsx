@@ -1,15 +1,15 @@
-import { Utensils } from "lucide-react";
-import { Car } from "lucide-react";
-import { Gamepad2 } from "lucide-react";
-import { Heart } from "lucide-react";
-import { GraduationCap } from "lucide-react";
+import { IoFastFood } from "react-icons/io5";
+import { IoCarSport } from "react-icons/io5";
+import { IoGameController } from "react-icons/io5";
+import { IoHeart } from "react-icons/io5";
+import { FaGraduationCap } from "react-icons/fa";
 
 const Categorias = () => {
   const categories = [
     {
       id: 1,
       name: "Alimentação",
-      icon: <Utensils className="text-green-600 w-7 h-7" />,
+      icon: <IoFastFood className="text-green-600 w-7 h-7" />,
       amount: 850.0,
       transactions: 12,
       percentage: 70,
@@ -17,7 +17,7 @@ const Categorias = () => {
     {
       id: 2,
       name: "Transporte",
-      icon: <Car className="text-green-600 w-7 h-7" />,
+      icon: <IoCarSport className="text-green-600 w-7 h-7" />,
       amount: 420.5,
       transactions: 24,
       percentage: 60,
@@ -25,7 +25,7 @@ const Categorias = () => {
     {
       id: 3,
       name: "Lazer",
-      icon: <Gamepad2 className="text-green-600 w-7 h-7" />,
+      icon: <IoGameController className="text-green-600 w-7 h-7" />,
       amount: 310.0,
       transactions: 5,
       percentage: 40,
@@ -33,7 +33,7 @@ const Categorias = () => {
     {
       id: 4,
       name: "Saúde",
-      icon: <Heart className="text-green-600 w-7 h-7" />,
+      icon: <IoHeart className="text-green-600 w-7 h-7" />,
       amount: 620.3,
       transactions: 2,
       percentage: 65,
@@ -41,7 +41,7 @@ const Categorias = () => {
     {
       id: 5,
       name: "Educação",
-      icon: <GraduationCap className="text-green-600 w-7 h-7" />,
+      icon: <FaGraduationCap className="text-green-600 w-7 h-7" />,
       amount: 250.0,
       transactions: 1,
       percentage: 35,

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { NotificationContext } from "./notificationContext";
-import type { Notification } from "./types";
+import { NotificationContext } from "../../contexts/notifications/notificationContext";
+import type { Notification } from "../../types/notifications";
 
 interface NotificationProviderProps {
   children: React.ReactNode;

@@ -6,7 +6,8 @@ import BottomNav from "./components/BottomNav/BottomNav";
 import Categorias from "./components/Categorias/Categoria";
 import Carteira from "./components/Carteira/Carteira";
 import Config from "./components/Config/Config";
-import { NotificationProvider } from "./utils/notifications";
+import { DesktopSidebar } from "./components/Sidebar/DesktopSidebar";
+import { NotificationProvider } from "./providers/notifications";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -37,9 +38,19 @@ function App() {
   return (
     <NotificationProvider>
       <div className="min-h-screen bg-gray-950">
-        <Header onNavigateToProfile={handleNavigateToProfile} />
-        {renderPage()}
-        <BottomNav onNavigate={setCurrentPage} />
+        {/* Desktop Sidebar */}
+        <DesktopSidebar currentPage={currentPage} onNavigate={setCurrentPage} />
+
+        {/* Main Content */}
+        <div className="md:ml-64">
+          <Header onNavigateToProfile={handleNavigateToProfile} />
+          {renderPage()}
+        </div>
+
+        {/* Mobile Bottom Nav - Hidden on md and above */}
+        <div className="md:hidden">
+          <BottomNav onNavigate={setCurrentPage} />
+        </div>
       </div>
     </NotificationProvider>
   );

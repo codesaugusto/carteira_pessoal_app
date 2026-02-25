@@ -1,10 +1,12 @@
 import { VscCoffee } from "react-icons/vsc";
-import { RiShoppingBag2Line } from "react-icons/ri";
-import { MdAirplay } from "react-icons/md";
-import { useEffect, useState } from "react";
+import { BiSolidShoppingBags } from "react-icons/bi";
+import { useEffect, useState, useRef } from "react";
+import { FaCirclePlay } from "react-icons/fa6";
 import { animateNavIcon, initializeNavAnimation } from "../../utils/util";
 import ExpenseDetailModal from "./ExpenseDetailModal";
 import AllExpenses from "./AllExpenses";
+import DesktopHome from "./DesktopLayout/DesktopHome";
+import { SavingsGoalWidget } from "./DesktopLayout/SavingsGoalWidget";
 
 interface Expense {
   id: number;
@@ -21,155 +23,289 @@ interface HomeProps {
   onNavigate?: (index: number) => void;
 }
 
+// Função auxiliar para criar o array de despesas
+const createRecentExpenses = (): Expense[] => [
+  {
+    id: 1,
+    name: "Dolce Café",
+    description: "Hoje, 09:41",
+    amount: 4.5,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+  },
+  {
+    id: 2,
+    name: "Lojas Hitech",
+    description: "Ontem, 06:20",
+    amount: 42.0,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+  },
+  {
+    id: 3,
+    name: "Netflix",
+    description: "23 de Out, 2023",
+    amount: 15.99,
+    category: "entertainment",
+    icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
+    bgColor: "bg-red-900/50",
+    iconColor: "text-red-500",
+  },
+  {
+    id: 4,
+    name: "Cafeteria Central",
+    description: "22 de Out, 14:30",
+    amount: 8.75,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+  },
+  {
+    id: 5,
+    name: "Magazine Luiza",
+    description: "21 de Out, 10:15",
+    amount: 89.9,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+  },
+  {
+    id: 6,
+    name: "Starbucks",
+    description: "20 de Out, 08:45",
+    amount: 12.5,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+  },
+  {
+    id: 7,
+    name: "Disney+",
+    description: "19 de Out, 22:00",
+    amount: 29.9,
+    category: "entertainment",
+    icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
+    bgColor: "bg-red-900/50",
+    iconColor: "text-red-500",
+  },
+  {
+    id: 8,
+    name: "Mercado Super Aço",
+    description: "18 de Out, 11:20",
+    amount: 156.3,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+  },
+  {
+    id: 9,
+    name: "Cacau Show",
+    description: "17 de Out, 15:00",
+    amount: 35.0,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+  },
+  {
+    id: 10,
+    name: "Amazon Prime",
+    description: "16 de Out, 20:30",
+    amount: 14.9,
+    category: "entertainment",
+    icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
+    bgColor: "bg-red-900/50",
+    iconColor: "text-red-500",
+  },
+];
+
 const Home = ({ onNavigate }: HomeProps) => {
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAllExpensesOpen, setIsAllExpensesOpen] = useState(false);
   const [isFromAllExpenses, setIsFromAllExpenses] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+  const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const recentExpenses = createRecentExpenses();
 
   useEffect(() => {
     initializeNavAnimation();
   }, []);
 
-  const recentExpenses = [
-    {
-      id: 1,
-      name: "Dolce Café",
-      description: "Hoje, 09:41",
-      amount: 4.5,
-      category: "coffee",
-      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
-      bgColor: "bg-amber-900/50",
-      iconColor: "text-amber-600",
-    },
-    {
-      id: 2,
-      name: "Lojas Hitech",
-      description: "Ontem, 06:20",
-      amount: 42.0,
-      category: "shopping",
-      icon: <RiShoppingBag2Line className="text-blue-500 w-7 h-7" />,
-      bgColor: "bg-blue-900/50",
-      iconColor: "text-blue-500",
-    },
-    {
-      id: 3,
-      name: "Netflix",
-      description: "23 de Out, 2023",
-      amount: 15.99,
-      category: "entertainment",
-      icon: <MdAirplay className="text-red-500 w-7 h-7" />,
-      bgColor: "bg-red-900/50",
-      iconColor: "text-red-500",
-    },
-    {
-      id: 4,
-      name: "Cafeteria Central",
-      description: "22 de Out, 14:30",
-      amount: 8.75,
-      category: "coffee",
-      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
-      bgColor: "bg-amber-900/50",
-      iconColor: "text-amber-600",
-    },
-    {
-      id: 5,
-      name: "Magazine Luiza",
-      description: "21 de Out, 10:15",
-      amount: 89.9,
-      category: "shopping",
-      icon: <RiShoppingBag2Line className="text-blue-500 w-7 h-7" />,
-      bgColor: "bg-blue-900/50",
-      iconColor: "text-blue-500",
-    },
-    {
-      id: 6,
-      name: "Starbucks",
-      description: "20 de Out, 08:45",
-      amount: 12.5,
-      category: "coffee",
-      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
-      bgColor: "bg-amber-900/50",
-      iconColor: "text-amber-600",
-    },
-    {
-      id: 7,
-      name: "Disney+",
-      description: "19 de Out, 22:00",
-      amount: 29.9,
-      category: "entertainment",
-      icon: <MdAirplay className="text-red-500 w-7 h-7" />,
-      bgColor: "bg-red-900/50",
-      iconColor: "text-red-500",
-    },
-    {
-      id: 8,
-      name: "Mercado Super Aço",
-      description: "18 de Out, 11:20",
-      amount: 156.3,
-      category: "shopping",
-      icon: <RiShoppingBag2Line className="text-blue-500 w-7 h-7" />,
-      bgColor: "bg-blue-900/50",
-      iconColor: "text-blue-500",
-    },
-    {
-      id: 9,
-      name: "Cacau Show",
-      description: "17 de Out, 15:00",
-      amount: 35.0,
-      category: "coffee",
-      icon: <VscCoffee className="text-amber-600 w-7 h-7" />,
-      bgColor: "bg-amber-900/50",
-      iconColor: "text-amber-600",
-    },
-    {
-      id: 10,
-      name: "Amazon Prime",
-      description: "16 de Out, 20:30",
-      amount: 14.9,
-      category: "entertainment",
-      icon: <MdAirplay className="text-red-500 w-7 h-7" />,
-      bgColor: "bg-red-900/50",
-      iconColor: "text-red-500",
-    },
-  ];
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Handlers para o carrossel
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (carouselRef.current) {
+      setIsDragging(true);
+      setDragStart(e.clientX);
+    }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (carouselRef.current) {
+      setIsDragging(true);
+      setDragStart(e.touches[0].clientX);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !carouselRef.current) return;
+
+    const dragCurrent = e.clientX;
+    const diff = dragStart - dragCurrent;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && carouselIndex < 1) {
+        setCarouselIndex(1);
+        setIsDragging(false);
+      } else if (diff < 0 && carouselIndex > 0) {
+        setCarouselIndex(0);
+        setIsDragging(false);
+      }
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging || !carouselRef.current) return;
+
+    const dragCurrent = e.touches[0].clientX;
+    const diff = dragStart - dragCurrent;
+
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && carouselIndex < 1) {
+        setCarouselIndex(1);
+        setIsDragging(false);
+      } else if (diff < 0 && carouselIndex > 0) {
+        setCarouselIndex(0);
+        setIsDragging(false);
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Se for desktop, renderiza o layout desktop
+  if (isDesktop) {
+    return <DesktopHome recentExpenses={recentExpenses} />;
+  }
+
+  // LAYOUT MOBILE - CÓDIGO ORIGINAL
 
   return (
     <div className="px-6 pb-24 font-p">
-      {/* Card de Gastos Mensais */}
-      <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-3xl p-6 mb-8 relative overflow-hidden">
-        <div className="absolute top-2 right-7">
-          <div className="w-12 h-12 bg-green-800/40 rounded-2xl flex items-center justify-center">
-            <svg
-              className="w-6 h-6 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+      {/* Carrossel de Cards - Saldo e Meta de Poupança */}
+      <div className="mb-8">
+        <div
+          ref={carouselRef}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleMouseUp}
+          className="relative overflow-hidden rounded-3xl cursor-grab active:cursor-grabbing select-none"
+        >
+          {/* Container com items */}
+          <div
+            className="flex transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+          >
+            {/* Item 1: Card de Gastos Mensais */}
+            <div className="w-full flex-shrink-0">
+              <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-3xl px-5 py-8 md:px-0 md:py-0 relative overflow-hidden">
+                <div className="absolute top-2 right-7">
+                  <div className="w-12 h-12 bg-green-800/40 rounded-2xl flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
+                <p className="text-green-100 text-sm font-medium mb-2 font-poppins">
+                  SALDO
+                </p>
+                <p className="text-white text-4xl font-bold mb-6 font-poppins">
+                  R$3,000.00
+                </p>
+
+                <div className="w-full bg-green-800/30 rounded-full h-2 mb-4">
+                  <div className="bg-white rounded-full h-2 w-[65%]"></div>
+                </div>
+
+                <div className="flex justify-between items-center font-poppins">
+                  <p className="text-green-100 text-sm">GASTOS: R$ 1,890.00</p>
+                  <p className="text-green-100 text-sm font-semibold">
+                    65% USADOS
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Item 2: Savings Goal Widget */}
+            <div className="w-full flex-shrink-0">
+              <SavingsGoalWidget
+                goalName="Playstation 5"
+                current={2400}
+                goal={3500}
+                percentage={68}
               />
-            </svg>
+            </div>
           </div>
         </div>
 
-        <p className="text-green-100 text-sm font-medium mb-2 font-poppins">
-          SALDO
-        </p>
-        <p className="text-white text-4xl font-bold mb-6 font-poppins">
-          R$3,000.00
-        </p>
-
-        <div className="w-full bg-green-800/30 rounded-full h-2 mb-4">
-          <div className="bg-white rounded-full h-2 w-[65%]"></div>
-        </div>
-
-        <div className="flex justify-between items-center font-poppins">
-          <p className="text-green-100 text-sm">GASTOS: R$ 1,890.00</p>
-          <p className="text-green-100 text-sm font-semibold">65% USADOS</p>
+        {/* Indicadores (Bolinhas) */}
+        <div className="flex justify-center gap-2 mt-4">
+          <button
+            onClick={() => setCarouselIndex(0)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              carouselIndex === 0
+                ? "bg-green-600 w-6"
+                : "bg-gray-400 w-2 hover:bg-gray-500"
+            }`}
+            aria-label="Ir para saldo"
+          />
+          <button
+            onClick={() => setCarouselIndex(1)}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              carouselIndex === 1
+                ? "bg-green-600 w-6"
+                : "bg-gray-400 w-2 hover:bg-gray-500"
+            }`}
+            aria-label="Ir para meta de poupança"
+          />
         </div>
       </div>
 

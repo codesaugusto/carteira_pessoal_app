@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNotifications } from "../../utils/notifications";
+import { useNotifications } from "../../hooks/notifications";
 import NotificationPanel from "../Notifications/NotificationPanel";
 import Avatar from "../Avatar/Avatar";
 

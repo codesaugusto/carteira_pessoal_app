@@ -10,3 +10,26 @@ body {
 @theme {
   --font-poppins: "Poppins", sans-serif;
 }
+
+/* Hide scrollbar while keeping functionality */
+html,
+body,
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+#root {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#root::-webkit-scrollbar {
+  display: none;
+}
