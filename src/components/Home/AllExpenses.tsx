@@ -1,6 +1,10 @@
 import { X, Filter, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { DateRangePicker } from "../DateRangePicker";
+import { ExpenseItem } from "../ExpenseItem";
+import { useExpenseFilters } from "../../hooks/useExpenseFilters";
+import { SORT_OPTIONS, DATE_FILTER_OPTIONS } from "../../constants/expenses";
 
 interface Expense {
   id: number;
@@ -20,49 +24,241 @@ interface AllExpensesProps {
   onSelectExpense: (expense: Expense) => void;
 }
 
-type SortOption = "recent" | "oldest" | "highest" | "lowest";
-type FilterCategory = "all" | "coffee" | "shopping" | "entertainment";
-
 const AllExpenses = ({
   expenses,
   isOpen,
   onClose,
   onSelectExpense,
 }: AllExpensesProps) => {
-  const [sortBy, setSortBy] = useState<SortOption>("recent");
-  const [filterBy, setFilterBy] = useState<FilterCategory>("all");
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
-  const getCategoryFilter = (category: FilterCategory): Expense[] => {
-    if (category === "all") return expenses;
+  const {
+    sortBy,
+    setSortBy,
+    filterByCategory,
+    setFilterByCategory,
+    filterByDate,
+    setFilterByDate,
+    customStartDate,
+    setCustomStartDate,
+    customEndDate,
+    setCustomEndDate,
+    searchTerm,
+    setSearchTerm,
+    sortedExpenses,
+  } = useExpenseFilters(expenses);
 
-    return expenses.filter((exp) => exp.category === category);
-  };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
 
-  const getSortedExpenses = (expensesToSort: Expense[]): Expense[] => {
-    const sorted = [...expensesToSort];
-
-    switch (sortBy) {
-      case "recent":
-        return sorted;
-      case "oldest":
-        return sorted.reverse();
-      case "highest":
-        return sorted.sort((a, b) => b.amount - a.amount);
-      case "lowest":
-        return sorted.sort((a, b) => a.amount - b.amount);
-      default:
-        return sorted;
-    }
-  };
-
-  const filteredExpenses = getCategoryFilter(filterBy);
-  const sortedExpenses = getSortedExpenses(filteredExpenses);
-  const totalAmount = sortedExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (!isOpen) return null;
 
+  // DESKTOP LAYOUT
+  if (isDesktop) {
+    return (
+      <div className="fixed inset-0 z-50 bg-gray-950 flex" onClick={onClose}>
+        <div
+          className="w-full h-full bg-gray-950 font-poppins flex"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Left Sidebar - Filters */}
+          <div className="w-1/4 border-r border-gray-700 overflow-y-auto p-6 scrollbar-hide">
+            <h2 className="text-white text-lg font-bold mb-6">Filtros</h2>
+
+            {/* DATE RANGE */}
+            <div className="mb-6">
+              <h3 className="text-gray-400 text-xs font-bold mb-3 uppercase">
+                Intervalo de Datas
+              </h3>
+              <div className="space-y-2">
+                {Object.entries(DATE_FILTER_OPTIONS).map(([value, label]) => (
+                  <button
+                    key={value}
+                    onClick={() =>
+                      setFilterByDate(value as keyof typeof DATE_FILTER_OPTIONS)
+                    }
+                    className={`w-full text-left px-3 py-2 text-sm rounded transition ${
+                      filterByDate === value
+                        ? "bg-green-500/20 text-green-400 font-semibold"
+                        : "text-gray-300 hover:bg-gray-800"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Custom Date Inputs */}
+              {filterByDate === "custom" && (
+                <div className="mt-4">
+                  <DateRangePicker
+                    startDate={customStartDate}
+                    endDate={customEndDate}
+                    onStartDateChange={setCustomStartDate}
+                    onEndDateChange={setCustomEndDate}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* CATEGORIES */}
+            <div className="mb-6">
+              <h3 className="text-gray-400 text-xs font-bold mb-3 uppercase">
+                Categorias
+              </h3>
+              <div className="space-y-2">
+                {[
+                  { value: "all" as const, label: "Todas" },
+                  { value: "coffee" as const, label: "Café" },
+                  { value: "shopping" as const, label: "Shopping" },
+                  { value: "entertainment" as const, label: "Entretenimento" },
+                ].map((cat) => (
+                  <button
+                    key={cat.value}
+                    onClick={() => setFilterByCategory(cat.value)}
+                    className={`w-full text-left px-3 py-2 text-sm rounded transition ${
+                      filterByCategory === cat.value
+                        ? "bg-green-500/20 text-green-400 font-semibold"
+                        : "text-gray-300 hover:bg-gray-800"
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* SEARCH */}
+            <div className="mb-6">
+              <h3 className="text-gray-400 text-xs font-bold mb-3 uppercase">
+                Buscar Compra
+              </h3>
+              <input
+                type="text"
+                placeholder="Digite o nome da compra..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-gray-700 border border-gray-600 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:border-green-500 transition"
+              />
+            </div>
+
+            {/* Action Buttons */}
+            <button className="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-2 rounded-lg mb-2 transition">
+              Aplicar Filtros
+            </button>
+            <button
+              onClick={() => {
+                setFilterByCategory("all");
+                setSortBy("recent");
+              }}
+              className="w-full text-gray-400 hover:text-gray-300 text-sm py-2 transition"
+            >
+              Resetar Filtros
+            </button>
+          </div>
+
+          {/* Right Content - Results */}
+          <div className="flex-1 flex flex-col relative">
+            {/* Close Button - Top Right */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 w-8 h-8 hover:bg-gray-800 rounded-full flex items-center justify-center transition z-10"
+            >
+              <X className="w-5 h-5 text-gray-400 hover:text-white" />
+            </button>
+
+            {/* Header */}
+            <div className="p-6 border-b border-gray-700 flex-shrink-0">
+              <div className="mb-4">
+                <h1 className="text-white text-2xl font-bold">Resultados</h1>
+                <p className="text-gray-400 text-sm">
+                  Mostrando {sortedExpenses.length} transações (filtro:{" "}
+                  <span className="text-gray-300 font-semibold">
+                    {DATE_FILTER_OPTIONS[filterByDate]}
+                  </span>
+                  )
+                </p>
+              </div>
+
+              {/* Sort */}
+              <div className="flex justify-between items-center">
+                <p className="text-gray-400 text-sm">
+                  Total:{" "}
+                  <span className="text-white font-bold">
+                    R$
+                    {sortedExpenses
+                      .reduce((sum, exp) => sum + exp.amount, 0)
+                      .toFixed(2)
+                      .replace(".", ",")}
+                  </span>
+                </p>
+                <div className="relative">
+                  <button
+                    onClick={() => setShowSortMenu(!showSortMenu)}
+                    className="flex items-center gap-2 text-green-400 text-sm font-semibold hover:text-green-300"
+                  >
+                    Ordenar por:{" "}
+                    <span className="text-white">{SORT_OPTIONS[sortBy]}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+
+                  {showSortMenu && (
+                    <div className="absolute top-full right-0 mt-1 bg-gray-800 rounded-lg shadow-lg z-10 w-48">
+                      {Object.entries(SORT_OPTIONS).map(([value, label]) => (
+                        <button
+                          key={value}
+                          onClick={() => {
+                            setSortBy(value as keyof typeof SORT_OPTIONS);
+                            setShowSortMenu(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 text-sm transition ${
+                            sortBy === value
+                              ? "bg-green-500/20 text-green-400 font-semibold"
+                              : "text-gray-300 hover:bg-gray-700/60"
+                          }`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Expenses List */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3 scrollbar-hide">
+              {sortedExpenses.length > 0 ? (
+                sortedExpenses.map((expense) => (
+                  <ExpenseItem
+                    key={expense.id}
+                    expense={expense}
+                    onClick={() => {
+                      onSelectExpense(expense);
+                    }}
+                  />
+                ))
+              ) : (
+                <div className="flex items-center justify-center h-32 text-gray-400">
+                  <p>Nenhuma compra encontrada</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // MOBILE LAYOUT
   return (
     <>
       {/* Modal - Full Screen */}
@@ -90,7 +286,11 @@ const AllExpenses = ({
             <div className="text-sm text-white">
               Total:{" "}
               <span className="text-white font-bold">
-                R${totalAmount.toFixed(2).replace(".", ",")}
+                R$
+                {sortedExpenses
+                  .reduce((sum, exp) => sum + exp.amount, 0)
+                  .toFixed(2)
+                  .replace(".", ",")}
               </span>
             </div>
           </div>
@@ -111,22 +311,19 @@ const AllExpenses = ({
               {showFilterMenu && (
                 <div className="absolute top-full left-0 mt-1 bg-gray-800 rounded-lg shadow-lg z-10 w-full">
                   {[
-                    { value: "all" as const, label: "Todas" },
-                    { value: "coffee" as const, label: "Café" },
-                    { value: "shopping" as const, label: "Shopping" },
-                    {
-                      value: "entertainment" as const,
-                      label: "Entretenimento",
-                    },
+                    { value: "all", label: "Todas" },
+                    { value: "coffee", label: "Café" },
+                    { value: "shopping", label: "Shopping" },
+                    { value: "entertainment", label: "Entretenimento" },
                   ].map((option) => (
                     <button
                       key={option.value}
                       onClick={() => {
-                        setFilterBy(option.value);
+                        setFilterByCategory(option.value);
                         setShowFilterMenu(false);
                       }}
                       className={`w-full text-left px-4 py-2 text-sm transition ${
-                        filterBy === option.value
+                        filterByCategory === option.value
                           ? "bg-green-500/20 text-green-400 font-semibold"
                           : "text-gray-300 hover:bg-gray-700/60"
                       }`}
@@ -185,7 +382,7 @@ const AllExpenses = ({
                   onClick={() => {
                     onSelectExpense(expense);
                   }}
-                  className="w-full bg-gray-800/40 hover:bg-gray-800/60 rounded-xl p-3 flex items-center justify-between transition-all duration-150 border border-gray-700/30"
+                  className="w-full bg-gray-700/50 hover:bg-gray-700 rounded-lg p-2.5 flex items-center justify-between transition-all active:scale-98 hover:scale-102 active:duration-50 active:opacity-90 hover:duration-150"
                 >
                   <div className="flex items-center gap-4">
                     <div

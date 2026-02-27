@@ -12,7 +12,7 @@ export const SavingsGoalWidget = ({
   percentage = 68,
 }: SavingsGoalWidgetProps) => {
   return (
-    <div className="bg-gradient-to-br from-green-600 to-green-700 md:!bg-gray-800/50 md:!from-gray-800/0 md:!to-gray-800/0 md:rounded-xl rounded-3xl px-5 py-8 md:p-6 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-green-600 to-green-700 md:!bg-gray-800/30 md:!from-gray-800/30 md:!to-gray-800/30 md:rounded-xl rounded-3xl px-5 py-8 md:p-6 relative overflow-hidden">
       <div className="absolute top-2 right-7 md:hidden">
         <div className="w-12 h-12 bg-green-800/40 rounded-2xl flex items-center justify-center">
           <svg
@@ -46,7 +46,7 @@ export const SavingsGoalWidget = ({
 
       <div className="w-full bg-green-800/30 rounded-full h-2 md:h-1.5 mb-4 md:mb-2">
         <div
-          className="bg-white rounded-full h-2 md:h-1.5 transition-all"
+          className="md:bg-green-500 bg-white rounded-full h-2 md:h-1.5 transition-all"
           style={{ width: `${percentage}%` }}
         ></div>
       </div>

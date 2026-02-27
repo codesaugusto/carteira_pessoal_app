@@ -3,21 +3,12 @@ import { BiSolidShoppingBags } from "react-icons/bi";
 import { useEffect, useState, useRef } from "react";
 import { FaCirclePlay } from "react-icons/fa6";
 import { animateNavIcon, initializeNavAnimation } from "../../utils/util";
+import { type Expense } from "../../types/expense";
 import ExpenseDetailModal from "./ExpenseDetailModal";
+import NewExpenseModal from "./NewExpenseModal";
 import AllExpenses from "./AllExpenses";
 import DesktopHome from "./DesktopLayout/DesktopHome";
 import { SavingsGoalWidget } from "./DesktopLayout/SavingsGoalWidget";
-
-interface Expense {
-  id: number;
-  name: string;
-  description: string;
-  amount: number;
-  category?: string;
-  icon: React.ReactNode;
-  bgColor: string;
-  iconColor: string;
-}
 
 interface HomeProps {
   onNavigate?: (index: number) => void;
@@ -132,10 +123,12 @@ const Home = ({ onNavigate }: HomeProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAllExpensesOpen, setIsAllExpensesOpen] = useState(false);
   const [isFromAllExpenses, setIsFromAllExpenses] = useState(false);
+  const [isNewExpenseOpen, setIsNewExpenseOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const recentExpenses = createRecentExpenses();
@@ -153,11 +146,14 @@ const Home = ({ onNavigate }: HomeProps) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handlers para o carrossel
+  // Handlers para o carrossel com animação fluida
+  const totalItems = 2; // Total de items do carrossel
+
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (carouselRef.current) {
       setIsDragging(true);
       setDragStart(e.clientX);
+      setDragOffset(0);
     }
   };
 
@@ -165,6 +161,7 @@ const Home = ({ onNavigate }: HomeProps) => {
     if (carouselRef.current) {
       setIsDragging(true);
       setDragStart(e.touches[0].clientX);
+      setDragOffset(0);
     }
   };
 
@@ -174,15 +171,8 @@ const Home = ({ onNavigate }: HomeProps) => {
     const dragCurrent = e.clientX;
     const diff = dragStart - dragCurrent;
 
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && carouselIndex < 1) {
-        setCarouselIndex(1);
-        setIsDragging(false);
-      } else if (diff < 0 && carouselIndex > 0) {
-        setCarouselIndex(0);
-        setIsDragging(false);
-      }
-    }
+    // Aplica o offset durante o arrasto (sem transição)
+    setDragOffset(diff);
   };
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -191,19 +181,46 @@ const Home = ({ onNavigate }: HomeProps) => {
     const dragCurrent = e.touches[0].clientX;
     const diff = dragStart - dragCurrent;
 
-    if (Math.abs(diff) > 50) {
-      if (diff > 0 && carouselIndex < 1) {
-        setCarouselIndex(1);
-        setIsDragging(false);
-      } else if (diff < 0 && carouselIndex > 0) {
-        setCarouselIndex(0);
-        setIsDragging(false);
-      }
-    }
+    // Aplica o offset durante o arrasto (sem transição)
+    setDragOffset(diff);
   };
 
   const handleMouseUp = () => {
+    handleDragEnd();
+  };
+
+  const handleTouchEnd = () => {
+    handleDragEnd();
+  };
+
+  const handleDragEnd = () => {
     setIsDragging(false);
+
+    // Se arrastou mais de 50px
+    if (Math.abs(dragOffset) > 50) {
+      if (dragOffset > 0) {
+        // Arrastar esquerda (próximo item)
+        if (carouselIndex < totalItems - 1) {
+          setCarouselIndex(carouselIndex + 1);
+          setDragOffset(0);
+        } else {
+          // Tentou arrastar no limite - bounce back
+          setDragOffset(0);
+        }
+      } else if (dragOffset < 0) {
+        // Arrastar direita (item anterior)
+        if (carouselIndex > 0) {
+          setCarouselIndex(carouselIndex - 1);
+          setDragOffset(0);
+        } else {
+          // Tentou arrastar no limite - bounce back
+          setDragOffset(0);
+        }
+      }
+    } else {
+      // Arrastou pouco - volta ao normal
+      setDragOffset(0);
+    }
   };
 
   // Se for desktop, renderiza o layout desktop
@@ -225,17 +242,24 @@ const Home = ({ onNavigate }: HomeProps) => {
           onMouseLeave={handleMouseUp}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
-          onTouchEnd={handleMouseUp}
+          onTouchEnd={handleTouchEnd}
           className="relative overflow-hidden rounded-3xl cursor-grab active:cursor-grabbing select-none"
         >
           {/* Container com items */}
           <div
-            className="flex transition-transform duration-300 ease-out"
-            style={{ transform: `translateX(-${carouselIndex * 100}%)` }}
+            className={`flex ${isDragging ? "" : "transition-all duration-600"}`}
+            style={{
+              transform: `translateX(calc(-${carouselIndex * 100}% - ${dragOffset}px))`,
+              transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+            }}
           >
             {/* Item 1: Card de Gastos Mensais */}
-            <div className="w-full flex-shrink-0">
-              <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-3xl px-5 py-8 md:px-0 md:py-0 relative overflow-hidden">
+            <div
+              className={`w-full flex-shrink-0 transition-all duration-600 ${carouselIndex === 0 ? "opacity-100" : "opacity-50"}`}
+            >
+              <div
+                className={`bg-gradient-to-br from-green-600 to-green-700 rounded-3xl px-5 py-8 md:px-0 md:py-0 relative overflow-hidden transition-all duration-600 ${carouselIndex === 0 ? "shadow-2xl" : "shadow-lg"}`}
+              >
                 <div className="absolute top-2 right-7">
                   <div className="w-12 h-12 bg-green-800/40 rounded-2xl flex items-center justify-center">
                     <svg
@@ -275,13 +299,19 @@ const Home = ({ onNavigate }: HomeProps) => {
             </div>
 
             {/* Item 2: Savings Goal Widget */}
-            <div className="w-full flex-shrink-0">
-              <SavingsGoalWidget
-                goalName="Playstation 5"
-                current={2400}
-                goal={3500}
-                percentage={68}
-              />
+            <div
+              className={`w-full flex-shrink-0 transition-all duration-600 ${carouselIndex === 1 ? "opacity-100" : "opacity-50"}`}
+            >
+              <div
+                className={`transition-all duration-600 ${carouselIndex === 1 ? "shadow-2xl" : "shadow-lg"}`}
+              >
+                <SavingsGoalWidget
+                  goalName="Playstation 5"
+                  current={2400}
+                  goal={3500}
+                  percentage={68}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -311,7 +341,10 @@ const Home = ({ onNavigate }: HomeProps) => {
 
       {/* Grid de Ações */}
       <div className="grid grid-cols-4 gap-4 mb-8 font-poppins">
-        <button className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120">
+        <button
+          onClick={() => setIsNewExpenseOpen(true)}
+          className="flex flex-col items-center gap-3 transition-all duration-150 active:scale-95 active:brightness-120"
+        >
           <div className="w-16 h-16 bg-gray-800 rounded-2xl flex items-center justify-center">
             <svg
               className="w-8 h-8 text-green-500"
@@ -390,7 +423,7 @@ const Home = ({ onNavigate }: HomeProps) => {
 
       {/* Recent Expenses */}
       <div>
-        <div className="flex justify-between items-center mb-4 px-0 font-poppins">
+        <div className="flex justify-between items-center mb-4 px-0 font-poppins gap-2">
           <h2 className="text-white text-xl font-bold">Compras Recentes</h2>
           <button
             onClick={() => setIsAllExpensesOpen(true)}
@@ -471,6 +504,18 @@ const Home = ({ onNavigate }: HomeProps) => {
           setIsFromAllExpenses(true);
         }}
       />
+
+      {/* New Expense Modal */}
+      <NewExpenseModal
+        isOpen={isNewExpenseOpen}
+        onClose={() => setIsNewExpenseOpen(false)}
+        onSave={(expense) => {
+          console.log("Nova despesa:", expense);
+          // Implementar salvamento da despesa
+          // TODO: Integrar com backend para salvar a despesa
+        }}
+      />
+
     </div>
   );
 };

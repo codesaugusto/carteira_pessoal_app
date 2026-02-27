@@ -1,15 +1,5 @@
 import { X, Edit2, Trash2 } from "lucide-react";
-import type { ReactNode } from "react";
-
-interface Expense {
-  id: number;
-  name: string;
-  description: string;
-  amount: number;
-  icon: ReactNode;
-  bgColor: string;
-  iconColor: string;
-}
+import type { Expense } from "../../types/expense";
 
 interface ExpenseDetailModalProps {
   expense: Expense | null;

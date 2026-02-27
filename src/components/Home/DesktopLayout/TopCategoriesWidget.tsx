@@ -46,9 +46,9 @@ export const TopCategoriesWidget = ({
         </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-5">
         {categories.map((category, index) => (
-          <div key={index} className="space-y-1">
+          <div key={index} className="space-y-2.5 pb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-green-600/30 rounded-lg flex items-center justify-center flex-shrink-0">
