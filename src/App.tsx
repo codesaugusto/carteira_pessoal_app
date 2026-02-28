@@ -24,6 +24,8 @@ function App() {
       case 2:
         return <Carteira />;
       case 3:
+        return <Home onNavigate={setCurrentPage} />;
+      case 4:
         return <Config initialPage={configInitialPage} />;
       default:
         return <Home onNavigate={setCurrentPage} />;

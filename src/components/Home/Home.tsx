@@ -225,7 +225,9 @@ const Home = ({ onNavigate }: HomeProps) => {
 
   // Se for desktop, renderiza o layout desktop
   if (isDesktop) {
-    return <DesktopHome recentExpenses={recentExpenses} />;
+    return (
+      <DesktopHome recentExpenses={recentExpenses} onNavigate={onNavigate} />
+    );
   }
 
   // LAYOUT MOBILE - CÓDIGO ORIGINAL
@@ -515,7 +517,6 @@ const Home = ({ onNavigate }: HomeProps) => {
           // TODO: Integrar com backend para salvar a despesa
         }}
       />
-
     </div>
   );
 };

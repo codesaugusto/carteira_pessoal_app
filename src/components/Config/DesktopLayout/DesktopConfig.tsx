@@ -272,17 +272,17 @@ const DesktopConfig = ({ initialPage = "menu" }: DesktopConfigProps) => {
         );
       default:
         return (
-          <div className="p-8">
+          <div className="px-5 py-8 w-5xl">
             <div className="flex justify-between items-center mb-8">
               <div>
-                <h1 className="text-4xl font-bold text-white">Configurações</h1>
+                <h1 className="text-2xl font-bold text-white">Configurações</h1>
                 <p className="text-gray-400 text-sm mt-2">
                   Gerencie suas preferências e perfil
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-4xl">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <button
                 onClick={() => setCurrentPage("perfil")}
                 className="flex items-center gap-3 p-4 bg-gray-800/40 rounded-xl border border-gray-700/30 hover:bg-gray-800/60 transition group"
@@ -365,7 +365,7 @@ const DesktopConfig = ({ initialPage = "menu" }: DesktopConfigProps) => {
               </button>
             </div>
 
-            <p className="text-center text-gray-600 mt-8 text-xs">
+            <p className="text-center flex items-start text-gray-600 mt-8 text-xs">
               MY WALLET V2.4.0
             </p>
           </div>

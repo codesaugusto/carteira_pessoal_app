@@ -9,6 +9,7 @@ interface TopCategoriesWidgetProps {
     percentage: number;
     icon: React.ReactNode;
   }>;
+  onClick?: () => void;
 }
 
 export const TopCategoriesWidget = ({
@@ -29,6 +30,7 @@ export const TopCategoriesWidget = ({
       icon: <IoGameController className="text-green-600 w-5 h-5" />,
     },
   ],
+  onClick,
 }: TopCategoriesWidgetProps) => {
   return (
     <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">
@@ -41,7 +43,10 @@ export const TopCategoriesWidget = ({
             Categorias Principais
           </h3>
         </div>
-        <button className="text-green-500 hover:text-green-400 text-xs font-semibold transition-colors">
+        <button
+          onClick={onClick}
+          className="text-green-500 cursor-pointer hover:text-white text-xs font-semibold transition-colors"
+        >
           Gerenciar
         </button>
       </div>

@@ -13,9 +13,10 @@ import { DEFAULT_EXPENSES } from "../../../data/defaultExpenses";
 
 interface DesktopHomeProps {
   recentExpenses?: Expense[];
+  onNavigate?: (index: number) => void;
 }
 
-const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
+const DesktopHome = ({ recentExpenses = [], onNavigate }: DesktopHomeProps) => {
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAllExpensesOpen, setIsAllExpensesOpen] = useState(false);
@@ -24,7 +25,8 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
   const [isNewExpensePageOpen, setIsNewExpensePageOpen] = useState(false);
   const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
 
-  const expenses = recentExpenses.length > 0 ? recentExpenses : DEFAULT_EXPENSES;
+  const expenses =
+    recentExpenses.length > 0 ? recentExpenses : DEFAULT_EXPENSES;
 
   return (
     <>
@@ -182,7 +184,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                     </h3>
                     <button
                       onClick={() => setIsAllExpensesOpen(true)}
-                      className="text-green-500 hover:text-green-400 text-xs font-semibold transition-colors"
+                      className="text-green-500 cursor-pointer hover:text-white text-xs font-semibold transition-colors"
                     >
                       Ver todos
                     </button>
@@ -206,10 +208,10 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
               {/* Right Column - 1/3 width */}
               <div className="sticky top-0 h-fit flex flex-col items-center justify-start gap-4">
                 <div className="w-full">
-                  <SavingsGoalWidget />
+                  <SavingsGoalWidget onClick={() => onNavigate?.(3)} />
                 </div>
                 <div className="w-full">
-                  <TopCategoriesWidget />
+                  <TopCategoriesWidget onClick={() => onNavigate?.(1)} />
                 </div>
               </div>
             </div>

@@ -3,6 +3,7 @@ interface SavingsGoalWidgetProps {
   current?: number;
   goal?: number;
   percentage?: number;
+  onClick?: () => void;
 }
 
 export const SavingsGoalWidget = ({
@@ -10,6 +11,7 @@ export const SavingsGoalWidget = ({
   current = 2400,
   goal = 3500,
   percentage = 68,
+  onClick,
 }: SavingsGoalWidgetProps) => {
   return (
     <div className="bg-gradient-to-br from-green-600 to-green-700 md:!bg-gray-800/30 md:!from-gray-800/30 md:!to-gray-800/30 md:rounded-xl rounded-3xl px-5 py-8 md:p-6 relative overflow-hidden">
@@ -55,7 +57,10 @@ export const SavingsGoalWidget = ({
         <p className="text-green-100 text-sm md:text-xs font-medium">
           {percentage}% ALCANÇADO
         </p>
-        <button className="text-green-100 hover:text-white text-sm md:text-xs font-semibold transition-colors">
+        <button
+          onClick={onClick}
+          className="hidden md:flex text-green-500 cursor-pointer hover:text-white text-sm md:text-xs font-semibold transition-colors"
+        >
           Gerenciar
         </button>
       </div>

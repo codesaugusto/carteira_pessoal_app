@@ -29,7 +29,11 @@ export const WalletCard = ({ wallet, onClick }: WalletCardProps) => {
       {/* Menu Button */}
       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
         <button className="w-8 h-8 flex items-center justify-center hover:bg-gray-700/50 rounded-lg transition-colors">
-          <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="w-5 h-5 text-gray-400"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
             <circle cx="12" cy="5" r="2" />
             <circle cx="12" cy="12" r="2" />
             <circle cx="12" cy="19" r="2" />
@@ -52,7 +56,7 @@ export const WalletCard = ({ wallet, onClick }: WalletCardProps) => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10">
+      <div className="relative z-10 flex justify-center flex-col items-start">
         <h3 className="text-white font-semibold text-sm mb-1">{wallet.name}</h3>
         <p className="text-gray-400 text-xs mb-3">{wallet.description}</p>
         <p className="text-white font-bold text-xl">
