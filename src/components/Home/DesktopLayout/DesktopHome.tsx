@@ -190,7 +190,7 @@ const DesktopHome = ({ recentExpenses = [], onNavigate }: DesktopHomeProps) => {
                     </button>
                   </div>
 
-                  <div className="space-y-2 cursor-pointer">
+                  <div className="space-y-2">
                     {expenses.slice(0, 5).map((expense) => (
                       <ExpenseItem
                         key={expense.id}

@@ -91,7 +91,7 @@ export const DesktopSidebar = ({
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
-            className={`w-full flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 ${
+            className={`w-full flex items-center gap-4 cursor-pointer px-4 py-3 rounded-lg transition-all duration-200 ${
               currentPage === item.id
                 ? "bg-green-500/20 text-green-500 border border-green-500/30"
                 : "text-gray-400 hover:text-white hover:bg-gray-800/50"

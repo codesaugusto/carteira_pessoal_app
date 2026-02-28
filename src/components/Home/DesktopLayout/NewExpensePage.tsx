@@ -136,7 +136,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
       </div>
 
       {/* Content - 2 Column Layout */}
-      <div className="p-6 grid grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <div className="p-6 grid grid-cols-3 gap-6 max-w-8xl justify-start items-start">
         {/* Left Column - Formulário */}
         <div className="col-span-2 space-y-6">
           {/* Detalhes Principais */}

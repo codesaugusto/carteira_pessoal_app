@@ -6,6 +6,7 @@ import BottomNav from "./components/BottomNav/BottomNav";
 import Categorias from "./components/Categorias/Categoria";
 import Carteira from "./components/Carteira/Carteira";
 import Config from "./components/Config/Config";
+import Metas from "./components/Metas/Metas";
 import { DesktopSidebar } from "./components/Sidebar/DesktopSidebar";
 import { NotificationProvider } from "./providers/notifications";
 
@@ -24,7 +25,7 @@ function App() {
       case 2:
         return <Carteira />;
       case 3:
-        return <Home onNavigate={setCurrentPage} />;
+        return <Metas />;
       case 4:
         return <Config initialPage={configInitialPage} />;
       default:
@@ -34,7 +35,7 @@ function App() {
 
   const handleNavigateToProfile = () => {
     setConfigInitialPage("perfil");
-    setCurrentPage(3);
+    setCurrentPage(4);
   };
 
   return (
