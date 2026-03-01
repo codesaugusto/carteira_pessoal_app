@@ -139,3 +139,19 @@ body::-webkit-scrollbar,
 .dark-calendar .react-calendar__month-view {
   margin-top: 0.5rem;
 }
+
+/* Animação para barra de progresso com variável CSS dinâmica */
+@keyframes progressFill {
+  from {
+    width: 0%;
+    opacity: 0.5;
+  }
+  to {
+    width: var(--progress-width, 65%);
+    opacity: 1;
+  }
+}
+
+.animate-progress {
+  animation: progressFill 1s ease-in-out forwards;
+}

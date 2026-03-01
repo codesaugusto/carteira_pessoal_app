@@ -10,13 +10,13 @@ import { SavingsGoalWidget } from "./SavingsGoalWidget";
 import { ExpenseItem } from "../../ExpenseItem";
 import { STYLES } from "../../../constants/expenses";
 import { DEFAULT_EXPENSES } from "../../../data/defaultExpenses";
+import { useOnNavigate } from "../../../contexts/navigate";
 
 interface DesktopHomeProps {
   recentExpenses?: Expense[];
-  onNavigate?: (index: number) => void;
 }
 
-const DesktopHome = ({ recentExpenses = [], onNavigate }: DesktopHomeProps) => {
+const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAllExpensesOpen, setIsAllExpensesOpen] = useState(false);
@@ -24,6 +24,11 @@ const DesktopHome = ({ recentExpenses = [], onNavigate }: DesktopHomeProps) => {
   const [isNewExpenseOpen, setIsNewExpenseOpen] = useState(false);
   const [isNewExpensePageOpen, setIsNewExpensePageOpen] = useState(false);
   const [isBulkImportOpen, setIsBulkImportOpen] = useState(false);
+  // TODO: Integrar com backend para obter a porcentagem de gastos
+  // Exemplo: const { data } = useFetch('/api/gastos-mensais');
+  // const spendPercentage = data?.percentage || 65;
+  const [spendPercentage] = useState(65); // Valor padrão até integrar com backend
+  const onNavigate = useOnNavigate();
 
   const expenses =
     recentExpenses.length > 0 ? recentExpenses : DEFAULT_EXPENSES;
@@ -94,47 +99,35 @@ const DesktopHome = ({ recentExpenses = [], onNavigate }: DesktopHomeProps) => {
             </div>
 
             {/* Main Grid - 2 columns */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 select-none">
               {/* Left Column - 2/3 width */}
               <div className="col-span-2 space-y-4">
                 {/* Total Balance Card */}
-                <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">
+                <button
+                  onClick={() => onNavigate?.(2)}
+                  className="bg-gray-800/50 w-full flex flex-col rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer"
+                >
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-gray-400 text-md font-medium mb-1">
+                      <p className="text-gray-400 flex justify-start text-md font-medium mb-1">
                         Saldo Total
                       </p>
                       <h2 className="text-3xl font-bold text-white">
                         R$12,450.00
                       </h2>
                     </div>
-                    <div className="w-12 h-12 bg-green-500/10 rounded-lg flex items-center justify-center border border-green-500/20">
-                      <svg
-                        className="w-6 h-6 text-green-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                        />
-                      </svg>
-                    </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-gray-700/50 rounded-lg p-3">
-                      <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">
+                    <div className="bg-gray-700/50 rounded-lg p-3 flex flex-col items-start">
+                      <p className="text-gray-400  text-xs uppercase tracking-wider mb-1">
                         Receitas
                       </p>
                       <p className="text-green-500 text-base font-semibold">
                         +R$4,250.00
                       </p>
                     </div>
-                    <div className="bg-gray-700/50 rounded-lg p-3">
+                    <div className="bg-gray-700/50 rounded-lg p-3 flex flex-col items-start">
                       <p className="text-gray-400 text-xs uppercase tracking-wider mb-1">
                         Despesas
                       </p>
@@ -143,38 +136,50 @@ const DesktopHome = ({ recentExpenses = [], onNavigate }: DesktopHomeProps) => {
                       </p>
                     </div>
                   </div>
-                </div>
+                </button>
 
                 {/* Monthly Spend */}
-                <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">
-                  <div className="flex justify-between items-start mb-3">
+                <button
+                  onClick={() => onNavigate?.(3)}
+                  className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer w-full flex flex-col"
+                >
+                  <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-white text-base font-semibold">
                         Gastos Mensais
                       </h3>
-                      <p className="text-gray-400 text-xs mt-0.5">
+                      <p className="text-gray-400 text-xs mt-0.5 flex justify-start">
                         Meta: R$3,200.00
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="text-green-500 text-lg font-bold">65%</p>
+                      <p className="text-green-500 text-lg font-bold">{65}%</p>
                       <p className="text-gray-400 text-xs">Usado</p>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <div className="w-full bg-gray-700 rounded-full h-2">
-                      <div className="bg-gradient-to-r from-green-500 to-green-400 rounded-full h-2 w-[65%]"></div>
+                      <div
+                        className="animate-progress bg-gradient-to-r from-green-500 to-green-400 rounded-full h-2"
+                        style={
+                          {
+                            "--progress-width": `${spendPercentage}%`,
+                          } as React.CSSProperties
+                        }
+                      ></div>
                     </div>
-                    <p className="text-gray-400 text-xs">
-                      Você ainda tem{" "}
-                      <span className="text-white font-semibold">
-                        R$1100,00
-                      </span>{" "}
-                      restantes para gastar neste mês.
-                    </p>
+                    <div className="flex items-start">
+                      <p className="text-gray-400 text-xs">
+                        Você ainda tem{" "}
+                        <span className="text-white font-semibold">
+                          R$1100,00
+                        </span>{" "}
+                        restantes para gastar neste mês.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </button>
 
                 {/* Recent Transactions */}
                 <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">

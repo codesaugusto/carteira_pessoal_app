@@ -2,21 +2,19 @@ import { useState } from "react";
 import { useNotifications } from "../../hooks/notifications";
 import NotificationPanel from "../Notifications/NotificationPanel";
 import Avatar from "../Avatar/Avatar";
+import { useOnNavigate } from "../../contexts/navigate";
 
-interface HeaderProps {
-  onNavigateToProfile?: () => void;
-}
-
-const Header = ({ onNavigateToProfile }: HeaderProps) => {
+const Header = () => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { notifications, unreadCount, markAsRead, deleteNotification } =
     useNotifications();
+  const onNavigate = useOnNavigate();
 
   return (
     <>
       <div className="flex justify-between items-center px-6 py-6">
         <button
-          onClick={onNavigateToProfile}
+          onClick={() => onNavigate(4)}
           className="flex items-center gap-4 hover:opacity-80 transition"
         >
           <Avatar alt="Carlos Augusto" fallback="CA" size="lg" />

@@ -9,17 +9,18 @@ import Config from "./components/Config/Config";
 import Metas from "./components/Metas/Metas";
 import { DesktopSidebar } from "./components/Sidebar/DesktopSidebar";
 import { NotificationProvider } from "./providers/notifications";
+import { OnNavigateProvider } from "./contexts/navigate";
 
 function App() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [configInitialPage, setConfigInitialPage] = useState<
-    "menu" | "perfil" | "editar-perfil"
-  >("menu");
+  const [configInitialPage] = useState<"menu" | "perfil" | "editar-perfil">(
+    "menu",
+  );
 
   const renderPage = () => {
     switch (currentPage) {
       case 0:
-        return <Home onNavigate={setCurrentPage} />;
+        return <Home />;
       case 1:
         return <Categorias />;
       case 2:
@@ -29,32 +30,29 @@ function App() {
       case 4:
         return <Config initialPage={configInitialPage} />;
       default:
-        return <Home onNavigate={setCurrentPage} />;
+        return <Home />;
     }
-  };
-
-  const handleNavigateToProfile = () => {
-    setConfigInitialPage("perfil");
-    setCurrentPage(4);
   };
 
   return (
     <NotificationProvider>
-      <div className="min-h-screen bg-gray-950">
-        {/* Desktop Sidebar */}
-        <DesktopSidebar currentPage={currentPage} onNavigate={setCurrentPage} />
+      <OnNavigateProvider onNavigate={setCurrentPage}>
+        <div className="min-h-screen bg-gray-950">
+          {/* Desktop Sidebar */}
+          <DesktopSidebar currentPage={currentPage} />
 
-        {/* Main Content */}
-        <div className="md:ml-64">
-          <Header onNavigateToProfile={handleNavigateToProfile} />
-          {renderPage()}
-        </div>
+          {/* Main Content */}
+          <div className="md:ml-64">
+            <Header />
+            {renderPage()}
+          </div>
 
-        {/* Mobile Bottom Nav - Hidden on md and above */}
-        <div className="md:hidden">
-          <BottomNav onNavigate={setCurrentPage} />
+          {/* Mobile Bottom Nav - Hidden on md and above */}
+          <div className="md:hidden">
+            <BottomNav />
+          </div>
         </div>
-      </div>
+      </OnNavigateProvider>
     </NotificationProvider>
   );
 }

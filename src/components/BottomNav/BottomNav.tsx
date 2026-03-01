@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { animateNavIcon, initializeNavAnimation } from "../../utils/util";
+import { useOnNavigate } from "../../contexts/navigate";
 
-interface BottomNavProps {
-  onNavigate?: (index: number) => void;
-}
+const BottomNav = () => {
+  const onNavigate = useOnNavigate();
 
-const BottomNav = ({ onNavigate }: BottomNavProps) => {
   useEffect(() => {
     initializeNavAnimation();
   }, []);

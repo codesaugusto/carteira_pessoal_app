@@ -33,7 +33,7 @@ export const TopCategoriesWidget = ({
   onClick,
 }: TopCategoriesWidgetProps) => {
   return (
-    <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">
+    <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-lg bg-green-500/20 flex items-center justify-center">
