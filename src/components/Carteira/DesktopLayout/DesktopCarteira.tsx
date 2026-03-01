@@ -2,9 +2,11 @@ import { useState } from "react";
 import { getWalletsWithIcons } from "../../../utils/getWalletsWithIcons";
 import { WalletCard } from "../../WalletCard";
 import { STYLES } from "../../../constants/expenses";
+import { useOnNavigate } from "../../../contexts/navigate";
 
 const DesktopCarteira = () => {
   const [wallets] = useState(() => getWalletsWithIcons());
+  const onNavigate = useOnNavigate();
 
   const totalBalance = wallets.reduce((sum, wallet) => sum + wallet.amount, 0);
   const averageBalance = Math.round(totalBalance / wallets.length);
@@ -43,14 +45,20 @@ const DesktopCarteira = () => {
         {/* Summary Cards */}
         <div className="grid grid-cols-3 gap-3 mb-6">
           {/* Total Balance */}
-          <div className={`${STYLES.card}`}>
+          <button
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-gray-400 text-xs mb-1">Saldo Total</p>
-                <h2 className="text-2xl font-bold text-white">
+                <p className="text-gray-400 text-xs mb-1 flex items-start">
+                  Saldo Total
+                </p>
+                <h2 className="text-2xl font-bold text-white flex items-start">
                   R${totalBalance.toFixed(2).replace(".", ",")}
                 </h2>
-                <p className="text-green-500 text-xs mt-1">↑ 12% este mês</p>
+                <p className="text-green-500 text-xs mt-1 flex items-start">
+                  ↑ 12% este mês
+                </p>
               </div>
               <div className="w-9 h-9 bg-green-500/10 rounded-lg flex items-center justify-center border border-green-500/20">
                 <svg
@@ -68,17 +76,21 @@ const DesktopCarteira = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Average Balance */}
-          <div className={`${STYLES.card}`}>
+          <button
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-gray-400 text-xs mb-1">Saldo Médio</p>
+                <p className="text-gray-400 text-xs mb-1 flex items-start">
+                  Saldo Médio
+                </p>
                 <h2 className="text-2xl font-bold text-white">
                   R${averageBalance.toFixed(2).replace(".", ",")}
                 </h2>
-                <p className="text-blue-500 text-xs mt-1">
+                <p className="text-blue-500 text-xs mt-1 flex items-start">
                   {wallets.length} carteiras
                 </p>
               </div>
@@ -98,17 +110,21 @@ const DesktopCarteira = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Wallets Count */}
-          <div className={`${STYLES.card}`}>
+          <button
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-gray-400 text-xs mb-1">Carteiras Ativas</p>
-                <h2 className="text-2xl font-bold text-white">
+                <p className="text-gray-400 text-xs mb-1 flex items-start">
+                  Carteiras Ativas
+                </p>
+                <h2 className="text-2xl font-bold text-white flex items-start">
                   {wallets.length}
                 </h2>
-                <p className="text-purple-500 text-xs mt-1">
+                <p className="text-purple-500 text-xs mt-1 flex items-start">
                   Todas atualizadas
                 </p>
               </div>
@@ -128,7 +144,7 @@ const DesktopCarteira = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Wallets Grid */}
@@ -136,14 +152,14 @@ const DesktopCarteira = () => {
           <h2 className="text-white text-base font-semibold mb-3">
             Suas Carteiras
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {wallets.map((wallet) => (
               <WalletCard
                 key={wallet.id}
                 wallet={wallet}
                 onClick={() => {
                   console.log("Carteira clicada:", wallet.name);
-                  // TODO: Abrir modal de detalhes ou movimentações
+                  onNavigate?.(wallet.id);
                 }}
               />
             ))}

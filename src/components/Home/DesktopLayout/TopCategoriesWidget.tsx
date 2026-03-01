@@ -2,12 +2,13 @@ import { FaCheck } from "react-icons/fa6";
 import { IoFastFood } from "react-icons/io5";
 import { IoCarSport } from "react-icons/io5";
 import { IoGameController } from "react-icons/io5";
+import { useOnNavigate } from "../../../contexts/navigate";
 
 interface TopCategoriesWidgetProps {
   categories?: Array<{
     name: string;
-    percentage: number;
     icon: React.ReactNode;
+    percentage?: number;
   }>;
   onClick?: () => void;
 }
@@ -16,24 +17,26 @@ export const TopCategoriesWidget = ({
   categories = [
     {
       name: "Alimentação",
-      percentage: 32,
       icon: <IoFastFood className="text-green-600 w-5 h-5" />,
+      percentage: 45,
     },
     {
       name: "Transporte",
-      percentage: 18,
       icon: <IoCarSport className="text-green-600 w-5 h-5" />,
+      percentage: 28,
     },
     {
       name: "Lazer",
-      percentage: 12,
       icon: <IoGameController className="text-green-600 w-5 h-5" />,
+      percentage: 27,
     },
   ],
   onClick,
 }: TopCategoriesWidgetProps) => {
+  const onNavigate = useOnNavigate();
+
   return (
-    <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal">
+    <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 cursor-pointer active:scale-100 duration-75 transition-normal">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-lg bg-green-500/20 flex items-center justify-center">
@@ -51,7 +54,10 @@ export const TopCategoriesWidget = ({
         </button>
       </div>
 
-      <div className="space-y-5">
+      <button
+        onClick={() => onNavigate?.(1)}
+        className="space-y-5 w-full cursor-pointer"
+      >
         {categories.map((category, index) => (
           <div key={index} className="space-y-2.5 pb-2">
             <div className="flex items-center justify-between">
@@ -63,19 +69,23 @@ export const TopCategoriesWidget = ({
                   {category.name}
                 </span>
               </div>
-              <span className="text-white font-semibold text-xs">
+              <span className="text-white font-semibold flex items-end justify-end text-xs">
                 {category.percentage}%
               </span>
             </div>
             <div className="w-full bg-gray-700 rounded-full h-1">
               <div
-                className="bg-green-500 rounded-full h-1 transition-all"
-                style={{ width: `${category.percentage}%` }}
+                className="bg-green-500 rounded-full h-1 transition-all animate-progress"
+                style={
+                  {
+                    "--progress-width": `${category.percentage}%`,
+                  } as React.CSSProperties
+                }
               ></div>
             </div>
           </div>
         ))}
-      </div>
+      </button>
     </div>
   );
 };

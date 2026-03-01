@@ -46,7 +46,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
         />
       ) : (
         <div className="flex-1 h-screen overflow-y-auto font-poppins hide-scrollbar">
-          <div className="p-4">
+          <div className="p-5">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
               <div>
@@ -105,7 +105,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                 {/* Total Balance Card */}
                 <button
                   onClick={() => onNavigate?.(2)}
-                  className="bg-gray-800/50 w-full flex flex-col rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer"
+                  className="bg-gray-800/50 w-full flex flex-col rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-transform cursor-pointer"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>

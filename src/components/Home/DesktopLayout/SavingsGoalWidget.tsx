@@ -21,7 +21,7 @@ export const SavingsGoalWidget = ({
   return (
     <button
       onClick={() => onNavigate?.(3)}
-      className="flex flex-col items-start w-full bg-gradient-to-br from-green-600 to-green-700 md:!bg-gray-800/30 md:!from-gray-800/30 md:!to-gray-800/30 md:rounded-xl rounded-3xl px-5 py-8 md:p-6 relative overflow-hidden hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer"
+      className="flex flex-col items-start w-full bg-gradient-to-br from-green-600 to-green-700 md:!bg-gray-800/30 md:!from-gray-800/30 md:!to-gray-800/30 md:rounded-xl rounded-3xl px-5 py-8 md:p-4 relative overflow-hidden hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer"
     >
       <div className="absolute top-2 right-7 md:hidden">
         <div className="w-12 h-12 bg-green-800/40 rounded-2xl flex items-center justify-center">

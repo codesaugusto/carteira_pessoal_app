@@ -19,7 +19,7 @@ const Metas = () => {
   return (
     <div className="min-h-screen bg-gray-950 font-poppins">
       <div className="flex-1 h-screen overflow-y-auto">
-        <div className="p-6 md:p-6">
+        <div className="p-6 md:p-5">
           {/* Header */}
           <div className="flex justify-between items-start mb-8">
             <div>

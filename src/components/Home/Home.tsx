@@ -9,10 +9,7 @@ import NewExpenseModal from "./NewExpenseModal";
 import AllExpenses from "./AllExpenses";
 import DesktopHome from "./DesktopLayout/DesktopHome";
 import { SavingsGoalWidget } from "./DesktopLayout/SavingsGoalWidget";
-
-interface HomeProps {
-  onNavigate?: (index: number) => void;
-}
+import { useOnNavigate } from "../../contexts/navigate";
 
 // Função auxiliar para criar o array de despesas
 const createRecentExpenses = (): Expense[] => [
@@ -118,7 +115,7 @@ const createRecentExpenses = (): Expense[] => [
   },
 ];
 
-const Home = ({ onNavigate }: HomeProps) => {
+const Home = () => {
   const [selectedExpense, setSelectedExpense] = useState<Expense | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAllExpensesOpen, setIsAllExpensesOpen] = useState(false);
@@ -130,6 +127,7 @@ const Home = ({ onNavigate }: HomeProps) => {
   const [dragStart, setDragStart] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const onNavigate = useOnNavigate();
 
   const recentExpenses = createRecentExpenses();
 
@@ -225,9 +223,7 @@ const Home = ({ onNavigate }: HomeProps) => {
 
   // Se for desktop, renderiza o layout desktop
   if (isDesktop) {
-    return (
-      <DesktopHome recentExpenses={recentExpenses} onNavigate={onNavigate} />
-    );
+    return <DesktopHome recentExpenses={recentExpenses} />;
   }
 
   // LAYOUT MOBILE - CÓDIGO ORIGINAL

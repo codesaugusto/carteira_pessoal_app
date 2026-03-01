@@ -3,8 +3,11 @@ import { IoCarSport } from "react-icons/io5";
 import { IoGameController } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import { FaGraduationCap } from "react-icons/fa";
+import { useOnNavigate } from "../../contexts/navigate";
 
 const MobileCategories = () => {
+  const onNavigate = useOnNavigate();
+
   const categories = [
     {
       id: 1,
@@ -88,7 +91,11 @@ const MobileCategories = () => {
           {categories.map((category) => (
             <button
               key={category.id}
-              className="w-full text-left bg-gray-800/50 rounded-2xl p-3 flex items-center justify-between transition-all duration-150 active:scale-95 active:brightness-120"
+              onClick={() => {
+                console.log("Categoria clicada:", category.name);
+                onNavigate?.(category.id);
+              }}
+              className="w-full text-left bg-gray-800/50 rounded-2xl p-3 flex items-center justify-between hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer"
             >
               <div className="flex items-center gap-4 flex-1">
                 <div className="w-14 h-14 bg-green-600/30 rounded-xl flex items-center justify-center flex-shrink-0">

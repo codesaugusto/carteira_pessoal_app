@@ -2,9 +2,11 @@ import { useState } from "react";
 import { getCategoriesWithIcons } from "../../../utils/getCategoriesWithIcons";
 import { CategoryCard } from "../../CategoryCard";
 import { STYLES } from "../../../constants/expenses";
+import { useOnNavigate } from "../../../contexts/navigate";
 
 const DesktopCategories = () => {
   const [categories] = useState(() => getCategoriesWithIcons());
+  const onNavigate = useOnNavigate();
 
   const totalSpent = categories.reduce((sum, cat) => sum + cat.amount, 0);
   const averagePercentage = Math.round(
@@ -42,16 +44,22 @@ const DesktopCategories = () => {
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-3 gap-4 mb-6">
           {/* Total Spent */}
-          <div className={`${STYLES.card}`}>
+          <button
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-gray-400 text-xs mb-1">Gasto Total</p>
+                <p className="text-gray-400 text-xs mb-1 flex items-start">
+                  Gasto Total
+                </p>
                 <h2 className="text-2xl font-bold text-white">
                   R${totalSpent.toFixed(2).replace(".", ",")}
                 </h2>
-                <p className="text-red-500 text-xs mt-1">mês atual</p>
+                <p className="text-red-500 text-xs mt-1 flex items-start">
+                  mês atual
+                </p>
               </div>
               <div className="w-9 h-9 bg-red-500/10 rounded-lg flex items-center justify-center border border-red-500/20">
                 <svg
@@ -69,17 +77,23 @@ const DesktopCategories = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Categories Count */}
-          <div className={`${STYLES.card}`}>
+          <button
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-gray-400 text-xs mb-1">Categorias Ativas</p>
-                <h2 className="text-2xl font-bold text-white">
+                <p className="text-gray-400 text-xs mb-1 flex items-start">
+                  Categorias Ativas
+                </p>
+                <h2 className="text-2xl font-bold text-white flex items-start">
                   {categories.length}
                 </h2>
-                <p className="text-blue-500 text-xs mt-1">todas visíveis</p>
+                <p className="text-blue-500 text-xs mt-1 flex items-start">
+                  todas visíveis
+                </p>
               </div>
               <div className="w-9 h-9 bg-blue-500/10 rounded-lg flex items-center justify-center border border-blue-500/20">
                 <svg
@@ -97,17 +111,23 @@ const DesktopCategories = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </button>
 
           {/* Average Usage */}
-          <div className={`${STYLES.card}`}>
+          <button
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+          >
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-gray-400 text-xs mb-1">Uso Médio</p>
-                <h2 className="text-2xl font-bold text-white">
+                <p className="text-gray-400 text-xs mb-1 flex items-start">
+                  Uso Médio
+                </p>
+                <h2 className="text-2xl font-bold text-white flex items-start">
                   {averagePercentage}%
                 </h2>
-                <p className="text-green-500 text-xs mt-1">média de uso</p>
+                <p className="text-green-500 text-xs mt-1 flex items-start">
+                  média de uso
+                </p>
               </div>
               <div className="w-9 h-9 bg-green-500/10 rounded-lg flex items-center justify-center border border-green-500/20">
                 <svg
@@ -125,7 +145,7 @@ const DesktopCategories = () => {
                 </svg>
               </div>
             </div>
-          </div>
+          </button>
         </div>
 
         {/* Categories Grid */}
@@ -133,14 +153,14 @@ const DesktopCategories = () => {
           <h2 className="text-white text-base font-semibold mb-3">
             Suas Categorias
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
             {categories.map((category) => (
               <CategoryCard
                 key={category.id}
                 category={category}
                 onClick={() => {
                   console.log("Categoria clicada:", category.name);
-                  // TODO: Abrir modal de detalhes ou edição
+                  onNavigate?.(category.id);
                 }}
               />
             ))}
