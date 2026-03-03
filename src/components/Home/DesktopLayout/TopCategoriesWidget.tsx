@@ -1,4 +1,3 @@
-import { FaCheck } from "react-icons/fa6";
 import { IoFastFood } from "react-icons/io5";
 import { IoCarSport } from "react-icons/io5";
 import { IoGameController } from "react-icons/io5";
@@ -39,9 +38,6 @@ export const TopCategoriesWidget = ({
     <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 cursor-pointer active:scale-100 duration-75 transition-normal">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-green-500/20 flex items-center justify-center">
-            <FaCheck className="text-green-500 w-4 h-4" />
-          </div>
           <h3 className="text-white font-semibold text-sm">
             Categorias Principais
           </h3>

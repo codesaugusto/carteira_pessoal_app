@@ -59,44 +59,66 @@ export const DesktopSidebar = ({ currentPage }: DesktopSidebarProps) => {
 
   return (
     <aside
-      className={`hidden md:flex md:flex-col fixed left-0 top-0 h-screen bg-gradient-to-b from-gray-900 to-gray-950 border-r border-gray-800 transition-all duration-300 ${
+      className={`hidden md:flex md:flex-col fixed left-0 top-0 h-screen bg-gradient-to-b from-gray-900 to-gray-950 border-r border-gray-800 transition-all duration-400 overflow-hidden ${
         isCollapsed ? "w-20" : "w-64"
       }`}
     >
       {/* Logo */}
-      <div className="p-6 border-b border-gray-800">
-        {!isCollapsed && (
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center font-bold text-white text-lg">
-              M
-            </div>
-            <div>
-              <h1 className="text-white font-bold text-lg">MyWallet</h1>
-              <p className="text-gray-400 text-xs">Finanças</p>
-            </div>
+      <div className="p-5 border-b border-gray-800 flex-shrink-0">
+        <button
+          onClick={() => onNavigate?.(0)}
+          className="flex cursor-pointer items-center gap-3 w-full transition-all duration-400"
+        >
+          <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+            <svg
+              className="w-6 h-6 text-white"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z" />
+            </svg>
           </div>
-        )}
-        {isCollapsed && (
-          <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center font-bold text-white text-lg">
-            M
+          <div
+            className={`transition-all duration-400 whitespace-nowrap ${
+              isCollapsed ? "opacity-0 w-0" : "opacity-100 w-auto"
+            }`}
+          >
+            <h1 className="text-white flex items-start font-bold font-poppins text-lg leading-tight">
+              Carteira 67
+            </h1>
+            <p className="text-gray-400 text-xs italic leading-tight">
+              Seu App de Gestão Financeira
+            </p>
           </div>
-        )}
+        </button>
       </div>
 
       {/* Menu Items */}
-      <nav className="flex-1 px-4 py-6 space-y-2 text-sm">
+      <nav className="flex-1 px-3 py-6 space-y-2 text-sm overflow-y-auto scrollbar-hide">
         {menuItems.map((item) => (
           <button
             key={item.id}
             onClick={() => onNavigate(item.id)}
-            className={`w-full flex items-center gap-4 cursor-pointer px-4 py-3 rounded-lg transition-all duration-200 ${
+            className={`w-full flex flex-shrink-0 rounded-lg cursor-pointer py-3 items-center justify-start gap-3 px-4 ${
               currentPage === item.id
                 ? "bg-green-500/20 text-green-500 border border-green-500/30"
                 : "text-gray-400 hover:text-white hover:bg-gray-800/50"
             }`}
           >
-            {item.icon}
-            {!isCollapsed && <span className="font-medium">{item.label}</span>}
+            <div
+              className={`flex-shrink-0 ${
+                isCollapsed ? "flex-1 flex items-center justify-center" : ""
+              }`}
+            >
+              {item.icon}
+            </div>
+            <span
+              className={`font-medium whitespace-nowrap ${
+                isCollapsed ? "opacity-0 w-0" : "opacity-100 w-auto"
+              }`}
+            >
+              {item.label}
+            </span>
           </button>
         ))}
       </nav>
@@ -105,7 +127,7 @@ export const DesktopSidebar = ({ currentPage }: DesktopSidebarProps) => {
       <div className="p-4 border-t border-gray-800">
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gray-800/50 hover:bg-gray-700 text-gray-300 hover:text-white transition-all duration-200 group"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gray-800/50 hover:bg-gray-700 text-gray-300 hover:text-white transition-all duration-400 group"
           title={isCollapsed ? "Expandir" : "Minimizar"}
         >
           {isCollapsed ? (

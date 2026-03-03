@@ -102,6 +102,11 @@ const DateRangePicker = ({
     setShowMonthSelector(false);
   };
 
+  const handleResetToYearSelector = () => {
+    setShowMonthSelector(false);
+    setShowYearSelector(true);
+  };
+
   const MIN_YEAR = 1900;
   const MAX_YEAR = 2100;
 
@@ -217,7 +222,10 @@ const DateRangePicker = ({
           display: none;
         }
       `}</style>
-      <div ref={containerRef} className="p-4 bg-gray-800/50 rounded-lg">
+      <div
+        ref={containerRef}
+        className="p-4 bg-gray-800/50 rounded-lg overflow-hidden scrollbar-hide"
+      >
         {/* Instructions */}
         {showHint && (
           <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
@@ -333,9 +341,15 @@ const DateRangePicker = ({
           {/* Month Selector */}
           {showMonthSelector && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 rounded-lg shadow-lg z-20 p-3">
-              <p className="text-gray-400 text-xs font-semibold mb-2">
-                Selecione o Mês - {tempYear}
-              </p>
+              <div className="text-gray-400 text-xs font-semibold mb-2 flex items-center justify-between">
+                <span>Selecione o Mês</span>
+                <button
+                  onClick={handleResetToYearSelector}
+                  className="text-green-400 hover:text-green-300 transition cursor-pointer font-semibold"
+                >
+                  {tempYear}
+                </button>
+              </div>
               <div className="grid grid-cols-3 gap-2">
                 {[
                   "Jan",

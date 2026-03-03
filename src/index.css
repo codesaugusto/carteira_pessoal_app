@@ -11,29 +11,47 @@ body {
   --font-poppins: "Poppins", sans-serif;
 }
 
-/* Hide scrollbar while keeping functionality */
-html,
-body,
+/* Hide scrollbar for specific elements */
 .hide-scrollbar,
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
 .hide-scrollbar::-webkit-scrollbar,
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
 
-#root {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+/* Custom scrollbar styling for the application */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-#root::-webkit-scrollbar {
-  display: none;
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: #34d399;
+}
+
+/* Firefox scrollbar */
+html,
+body {
+  scrollbar-color: #10b981 #0f172a;
+  scrollbar-width: thin;
 }
 
 /* Dark theme customization for react-calendar */

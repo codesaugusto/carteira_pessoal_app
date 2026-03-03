@@ -1,4 +1,5 @@
 import { X, Edit2, Trash2 } from "lucide-react";
+import { useRef, useEffect } from "react";
 import type { Expense } from "../../types/expense";
 
 interface ExpenseDetailModalProps {
@@ -18,6 +19,58 @@ const ExpenseDetailModal = ({
   onDelete,
   isFromAllExpenses,
 }: ExpenseDetailModalProps) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const dragOffset = useRef({ x: 0, y: 0 });
+  const position = useRef({ x: 0, y: 0 });
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    dragOffset.current = {
+      x: e.clientX - position.current.x,
+      y: e.clientY - position.current.y,
+    };
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging.current || !modalRef.current) return;
+
+      position.current = {
+        x: e.clientX - dragOffset.current.x,
+        y: e.clientY - dragOffset.current.y,
+      };
+
+      modalRef.current.style.transform = `translate(${position.current.x}px, ${position.current.y}px)`;
+    };
+
+    const handleMouseUp = () => {
+      isDragging.current = false;
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    if (isOpen && modalRef.current) {
+      position.current = { x: 0, y: 0 };
+      modalRef.current.style.transform = "translate(0, 0)";
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen && modalRef.current) {
+      position.current = { x: 0, y: 0 };
+      modalRef.current.style.transform = "translate(0, 0)";
+    }
+  }, [isOpen]);
+
   if (!isOpen || !expense) return null;
 
   return (
@@ -36,12 +89,21 @@ const ExpenseDetailModal = ({
 
       {/* Modal */}
       <div
-        className="fixed inset-0 flex items-end justify-center"
+        className="fixed inset-0 flex items-center-safe justify-center p-4 pointer-events-none"
         style={{ zIndex: isFromAllExpenses ? 60 : 50 }}
       >
-        <div className="w-full md:w-1/4 bg-gray-950 rounded-t-3xl p-6 animate-in slide-in-from-bottom-4 shadow-2xl font-poppins">
+        <div
+          ref={modalRef}
+          className="pointer-events-auto w-full md:w-1/3 md:h-auto justify-center bg-gray-950 rounded-3xl p-6 animate-in slide-in-from-bottom-4 shadow-2xl font-poppins"
+          style={{
+            willChange: "transform",
+          }}
+        >
           {/* Header com Icon e Nome */}
-          <div className="flex items-start justify-between gap-4 mb-6 pb-4 border-b border-gray-700">
+          <div
+            className="flex items-start justify-between gap-4 mb-6 pb-4 border-b border-gray-700 cursor-grab active:cursor-grabbing select-none"
+            onMouseDown={handleMouseDown}
+          >
             <div className="flex items-center gap-4">
               <div
                 className={`w-14 h-14 ${expense.bgColor} rounded-xl flex items-center justify-center flex-shrink-0`}

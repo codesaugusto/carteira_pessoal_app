@@ -120,7 +120,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
   };
 
   return (
-    <div className="flex-1 h-screen overflow-y-auto font-poppins hide-scrollbar bg-gray-950">
+    <div className="flex-1 h-screen pb-32 overflow-y-auto font-poppins hide-scrollbar bg-gray-950">
       {/* Header */}
       <div className="bg-gradient-to-b from-green-950/30 to-gray-950 sticky top-0 z-10 border-b border-green-500/30 backdrop-blur-sm">
         <div className="p-4">
@@ -208,7 +208,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
                     </button>
 
                     {isDatePickerOpen && (
-                      <div className="absolute top-full left-0 mt-1 z-50 bg-gray-950 rounded-lg shadow-2xl border border-green-500/30">
+                      <div className="absolute top-full left-0 mt-1 z-50 bg-gray-950 rounded-2xl shadow-2xl border border-green-500/30">
                         <SingleDatePicker
                           value={date}
                           onChange={(selectedDate) => {
@@ -260,7 +260,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
           </div>
 
           {/* Notas Adicionais */}
-          <div className="bg-gray-800/50 border border-green-500/30 rounded-lg p-4">
+          <div className="bg-gray-800/50  rounded-lg p-5">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-500/30 rounded flex items-center justify-center">
                 <LuNotebookPen className="text-green-400 text-lg">

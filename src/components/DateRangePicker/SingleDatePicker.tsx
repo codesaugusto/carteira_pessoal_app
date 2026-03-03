@@ -69,6 +69,11 @@ const SingleDatePicker = ({
     setShowMonthSelector(false);
   };
 
+  const handleResetToYearSelector = () => {
+    setShowMonthSelector(false);
+    setShowYearSelector(true);
+  };
+
   const handleDateClick = (day: number) => {
     const selectedDate = new Date(
       currentMonth.getFullYear(),
@@ -132,7 +137,7 @@ const SingleDatePicker = ({
   return (
     <div
       ref={containerRef}
-      className="p-4 bg-gray-800/50 rounded-xl border border-gray-700"
+      className="p-4 bg-gray-800/50 rounded-xl border border-gray-700 overflow-hidden scrollbar-hide"
     >
       {/* Month Navigation */}
       <div className="flex items-center justify-between mb-4 relative">
@@ -205,6 +210,15 @@ const SingleDatePicker = ({
         {/* Month Selector Dropdown */}
         {showMonthSelector && (
           <div className="absolute top-12 left-0 right-0 bg-gray-700 rounded-lg p-3 z-10 shadow-lg">
+            <div className="text-gray-400 text-xs font-semibold mb-2 flex items-center justify-between">
+              <span>Selecione o Mês</span>
+              <button
+                onClick={handleResetToYearSelector}
+                className="text-green-400 hover:text-green-300 transition cursor-pointer font-semibold"
+              >
+                {tempYear}
+              </button>
+            </div>
             <div className="grid grid-cols-3 gap-2">
               {monthNames.map((month, index) => (
                 <button
