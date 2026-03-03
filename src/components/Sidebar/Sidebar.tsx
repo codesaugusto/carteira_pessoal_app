@@ -1,11 +1,11 @@
 import { animateNavIcon } from "../../utils/util";
+import { useOnNavigate } from "../../contexts/navigate";
 
 interface SidebarProps {
   currentPage: number;
-  onNavigate: (index: number) => void;
 }
 
-const Sidebar = ({ currentPage, onNavigate }: SidebarProps) => {
+const Sidebar = ({ currentPage }: SidebarProps) => {
   const navItems = [
     {
       index: 0,
@@ -45,9 +45,10 @@ const Sidebar = ({ currentPage, onNavigate }: SidebarProps) => {
     },
   ];
 
+  const onNavigate = useOnNavigate();
+
   const handleNavClick = (index: number) => {
     animateNavIcon(index);
-    onNavigate(index);
   };
 
   return (
@@ -68,7 +69,10 @@ const Sidebar = ({ currentPage, onNavigate }: SidebarProps) => {
         {navItems.map((item) => (
           <button
             key={item.index}
-            onClick={() => handleNavClick(item.index)}
+            onClick={() => (
+              handleNavClick(item.index),
+              onNavigate?.(item.index)
+            )}
             className={`nav-button transition-all duration-200 p-3 rounded-lg relative group ${
               currentPage === item.index
                 ? "bg-green-500/20 text-green-400"

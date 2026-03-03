@@ -155,3 +155,15 @@ body::-webkit-scrollbar,
 .animate-progress {
   animation: progressFill 1s ease-in-out forwards;
 }
+
+/* Desabilitar spinner do input number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}

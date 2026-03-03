@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, Info, X } from "lucide-react";
 
 interface DateRangePickerProps {
@@ -6,6 +6,7 @@ interface DateRangePickerProps {
   endDate: string;
   onStartDateChange: (date: string) => void;
   onEndDateChange: (date: string) => void;
+  onClose?: () => void;
 }
 
 const DateRangePicker = ({
@@ -13,6 +14,7 @@ const DateRangePicker = ({
   endDate,
   onStartDateChange,
   onEndDateChange,
+  onClose,
 }: DateRangePickerProps) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [showYearSelector, setShowYearSelector] = useState(false);
@@ -30,6 +32,21 @@ const DateRangePicker = ({
     start: startDate ? new Date(startDate) : undefined,
     end: endDate ? new Date(endDate) : undefined,
   });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   // Salvar estado da dica no localStorage
   useEffect(() => {
@@ -200,7 +217,7 @@ const DateRangePicker = ({
           display: none;
         }
       `}</style>
-      <div className="p-4 bg-gray-800/50 rounded-lg">
+      <div ref={containerRef} className="p-4 bg-gray-800/50 rounded-lg">
         {/* Instructions */}
         {showHint && (
           <div className="mb-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">

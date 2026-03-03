@@ -6,6 +6,13 @@ import { IoCart } from "react-icons/io5";
 import { IoGameController } from "react-icons/io5";
 import { IoHeart } from "react-icons/io5";
 import SingleDatePicker from "../../DateRangePicker/SingleDatePicker";
+import { FaCreditCard } from "react-icons/fa6";
+import { LuNotebookPen } from "react-icons/lu";
+import { IoCamera } from "react-icons/io5";
+import CategorySelect from "./CategorySelect";
+import PaymentSourceSelect from "./PaymentSourceSelect";
+import StatusSelect from "./StatusSelect";
+import RecurrenceSelect from "./RecurrenceSelect";
 
 interface NewExpensePageProps {
   onBack: () => void;
@@ -143,7 +150,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
           <div className="bg-gray-800/50 border rounded-lg p-4">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-500/30 rounded flex items-center justify-center">
-                <span className="text-green-400 text-lg">💳</span>
+                <FaCreditCard className="text-green-400 text-lg" />
               </div>
               <h2 className="text-lg font-bold text-white">
                 Detalhes Principais
@@ -222,7 +229,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
           <div className="bg-gray-800/50 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-500/30 rounded flex items-center justify-center">
-                <span className="text-green-400 text-lg">💚</span>
+                <IoHeart className="text-green-400 text-lg">💚</IoHeart>
               </div>
               <h2 className="text-lg font-bold text-white">Classificação</h2>
             </div>
@@ -232,36 +239,22 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
                 <label className="block text-gray-300 font-semibold mb-2 text-sm">
                   Categoria
                 </label>
-                <select
+                <CategorySelect
                   value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="w-full bg-gray-800/50 border border-green-500/30 rounded px-3 py-2 text-sm text-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/50 transition cursor-pointer"
-                >
-                  <option value="">Selecione uma categoria</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
+                  onChange={setSelectedCategory}
+                  categories={categories}
+                />
               </div>
 
               <div>
                 <label className="block text-gray-300 font-semibold mb-2 text-sm">
                   Fonte de Pagamento
                 </label>
-                <select
+                <PaymentSourceSelect
                   value={selectedPaymentSource}
-                  onChange={(e) => setSelectedPaymentSource(e.target.value)}
-                  className="w-full bg-gray-800/50 border border-green-500/30 rounded px-3 py-2 text-sm text-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/50 transition cursor-pointer"
-                >
-                  <option value="">Selecione a carteira</option>
-                  {paymentSources.map((source) => (
-                    <option key={source.id} value={source.id}>
-                      {source.name} ({source.type})
-                    </option>
-                  ))}
-                </select>
+                  onChange={setSelectedPaymentSource}
+                  sources={paymentSources}
+                />
               </div>
             </div>
           </div>
@@ -270,7 +263,9 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
           <div className="bg-gray-800/50 border border-green-500/30 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-500/30 rounded flex items-center justify-center">
-                <span className="text-green-400 text-lg">📝</span>
+                <LuNotebookPen className="text-green-400 text-lg">
+                  📝
+                </LuNotebookPen>
               </div>
               <h2 className="text-lg font-bold text-white">Notas Adicionais</h2>
             </div>
@@ -289,34 +284,22 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
                   <label className="block text-gray-300 font-semibold mb-2 text-sm">
                     Status
                   </label>
-                  <select
+                  <StatusSelect
                     value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-gray-800/50 border border-green-500/30 rounded px-3 py-2 text-sm text-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/50 transition cursor-pointer"
-                  >
-                    {statusOptions.map((opt) => (
-                      <option key={opt.id} value={opt.id}>
-                        {opt.name}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={setStatus}
+                    options={statusOptions}
+                  />
                 </div>
 
                 <div>
                   <label className="block text-gray-300 font-semibold mb-2 text-sm">
                     Recorrência
                   </label>
-                  <select
+                  <RecurrenceSelect
                     value={recurrence}
-                    onChange={(e) => setRecurrence(e.target.value)}
-                    className="w-full bg-gray-800/50 border border-green-500/30 rounded px-3 py-2 text-sm text-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/50 transition cursor-pointer"
-                  >
-                    {recurrenceOptions.map((opt) => (
-                      <option key={opt.id} value={opt.id}>
-                        {opt.name}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={setRecurrence}
+                    options={recurrenceOptions}
+                  />
                 </div>
               </div>
             </div>
@@ -329,7 +312,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
           <div className="bg-gray-800/50 rounded-lg p-4">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-green-500/30 rounded flex items-center justify-center">
-                <span className="text-green-400 text-lg">📸</span>
+                <IoCamera className="text-green-400 text-lg"></IoCamera>
               </div>
               <h2 className="text-lg font-bold text-white">Comprovante</h2>
             </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface SingleDatePickerProps {
@@ -22,6 +22,21 @@ const SingleDatePicker = ({
   const [showMonthSelector, setShowMonthSelector] = useState(false);
   const [tempYear, setTempYear] = useState(currentMonth.getFullYear());
   const [yearOffset, setYearOffset] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        onClose?.();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
 
   const daysInMonth = (date: Date) => {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -115,7 +130,10 @@ const SingleDatePicker = ({
   ];
 
   return (
-    <div className="p-4 bg-gray-800/50 rounded-xl border border-gray-700">
+    <div
+      ref={containerRef}
+      className="p-4 bg-gray-800/50 rounded-xl border border-gray-700"
+    >
       {/* Month Navigation */}
       <div className="flex items-center justify-between mb-4 relative">
         <button
