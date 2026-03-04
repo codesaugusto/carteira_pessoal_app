@@ -123,9 +123,12 @@ const AllExpenses = ({
                 ].map((cat) => (
                   <button
                     key={cat.value}
-                    onClick={() => setFilterByCategory(cat.value)}
+                    onClick={() =>
+                      setFilterByCategory(cat.value === "all" ? "" : cat.value)
+                    }
                     className={`w-full text-left px-3 py-2 text-sm rounded transition ${
-                      filterByCategory === cat.value
+                      (cat.value === "all" && filterByCategory === "") ||
+                      (cat.value !== "all" && filterByCategory === cat.value)
                         ? "bg-green-500/20 text-green-400 font-semibold"
                         : "text-gray-300 hover:bg-gray-800"
                     }`}
@@ -319,11 +322,15 @@ const AllExpenses = ({
                     <button
                       key={option.value}
                       onClick={() => {
-                        setFilterByCategory(option.value);
+                        setFilterByCategory(
+                          option.value === "all" ? "" : option.value,
+                        );
                         setShowFilterMenu(false);
                       }}
                       className={`w-full text-left px-4 py-2 text-sm transition ${
-                        filterByCategory === option.value
+                        (option.value === "all" && filterByCategory === "") ||
+                        (option.value !== "all" &&
+                          filterByCategory === option.value)
                           ? "bg-green-500/20 text-green-400 font-semibold"
                           : "text-gray-300 hover:bg-gray-700/60"
                       }`}

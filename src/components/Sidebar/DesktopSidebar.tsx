@@ -86,9 +86,6 @@ export const DesktopSidebar = ({ currentPage }: DesktopSidebarProps) => {
             <h1 className="text-white flex items-start font-bold font-poppins text-lg leading-tight">
               Carteira 67
             </h1>
-            <p className="text-gray-400 text-xs italic leading-tight">
-              Seu App de Gestão Financeira
-            </p>
           </div>
         </button>
       </div>

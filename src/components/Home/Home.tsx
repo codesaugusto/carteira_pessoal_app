@@ -10,6 +10,7 @@ import AllExpenses from "./AllExpenses";
 import DesktopHome from "./DesktopLayout/DesktopHome";
 import { SavingsGoalWidget } from "./DesktopLayout/SavingsGoalWidget";
 import { useOnNavigate } from "../../contexts/navigate";
+import MonthlyExpensesChart from "./MonthlyExpensesChart";
 
 // Função auxiliar para criar o array de despesas
 const createRecentExpenses = (): Expense[] => [
@@ -22,6 +23,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
     bgColor: "bg-amber-900/50",
     iconColor: "text-amber-600",
+    date: new Date(2026, 2, 4),
   },
   {
     id: 2,
@@ -32,6 +34,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
     bgColor: "bg-blue-900/50",
     iconColor: "text-blue-500",
+    date: new Date(2026, 1, 28),
   },
   {
     id: 3,
@@ -42,6 +45,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
     bgColor: "bg-red-900/50",
     iconColor: "text-red-500",
+    date: new Date(2026, 0, 23),
   },
   {
     id: 4,
@@ -52,6 +56,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
     bgColor: "bg-amber-900/50",
     iconColor: "text-amber-600",
+    date: new Date(2025, 11, 22),
   },
   {
     id: 5,
@@ -62,6 +67,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
     bgColor: "bg-blue-900/50",
     iconColor: "text-blue-500",
+    date: new Date(2025, 10, 21),
   },
   {
     id: 6,
@@ -72,6 +78,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
     bgColor: "bg-amber-900/50",
     iconColor: "text-amber-600",
+    date: new Date(2025, 9, 20),
   },
   {
     id: 7,
@@ -82,6 +89,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
     bgColor: "bg-red-900/50",
     iconColor: "text-red-500",
+    date: new Date(2025, 8, 19),
   },
   {
     id: 8,
@@ -92,6 +100,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
     bgColor: "bg-blue-900/50",
     iconColor: "text-blue-500",
+    date: new Date(2025, 7, 18),
   },
   {
     id: 9,
@@ -102,6 +111,7 @@ const createRecentExpenses = (): Expense[] => [
     icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
     bgColor: "bg-amber-900/50",
     iconColor: "text-amber-600",
+    date: new Date(2025, 6, 17),
   },
   {
     id: 10,
@@ -112,6 +122,117 @@ const createRecentExpenses = (): Expense[] => [
     icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
     bgColor: "bg-red-900/50",
     iconColor: "text-red-500",
+    date: new Date(2025, 5, 16),
+  },
+  {
+    id: 11,
+    name: "Starbucks",
+    description: "15 de mai",
+    amount: 18.5,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+    date: new Date(2025, 4, 15),
+  },
+  {
+    id: 12,
+    name: "Supermercado",
+    description: "10 de abr",
+    amount: 245.6,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+    date: new Date(2025, 3, 10),
+  },
+  {
+    id: 13,
+    name: "Padaria",
+    description: "12 de mar",
+    amount: 25.0,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+    date: new Date(2025, 2, 12),
+  },
+  {
+    id: 14,
+    name: "Loja de Roupas",
+    description: "8 de fev",
+    amount: 180.0,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+    date: new Date(2025, 1, 8),
+  },
+  {
+    id: 15,
+    name: "Spotify",
+    description: "5 de jan",
+    amount: 16.9,
+    category: "entertainment",
+    icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
+    bgColor: "bg-red-900/50",
+    iconColor: "text-red-500",
+    date: new Date(2025, 0, 5),
+  },
+  {
+    id: 16,
+    name: "Farmácia",
+    description: "28 de dez",
+    amount: 89.0,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+    date: new Date(2024, 11, 28),
+  },
+  {
+    id: 17,
+    name: "Restaurante",
+    description: "25 de nov",
+    amount: 120.5,
+    category: "coffee",
+    icon: <VscCoffee className="text-amber-600 w-6 h-6" />,
+    bgColor: "bg-amber-900/50",
+    iconColor: "text-amber-600",
+    date: new Date(2024, 10, 25),
+  },
+  {
+    id: 18,
+    name: "Gym",
+    description: "20 de out",
+    amount: 50.0,
+    category: "entertainment",
+    icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
+    bgColor: "bg-red-900/50",
+    iconColor: "text-red-500",
+    date: new Date(2024, 9, 20),
+  },
+  {
+    id: 19,
+    name: "Livraria",
+    description: "15 de set",
+    amount: 78.9,
+    category: "shopping",
+    icon: <BiSolidShoppingBags className="text-blue-500 w-6 h-6" />,
+    bgColor: "bg-blue-900/50",
+    iconColor: "text-blue-500",
+    date: new Date(2024, 8, 15),
+  },
+  {
+    id: 20,
+    name: "Cinema",
+    description: "10 de ago",
+    amount: 45.0,
+    category: "entertainment",
+    icon: <FaCirclePlay className="text-red-500 w-6 h-6" />,
+    bgColor: "bg-red-900/50",
+    iconColor: "text-red-500",
+    date: new Date(2024, 7, 10),
   },
 ];
 
@@ -418,6 +539,9 @@ const Home = () => {
           <span className="text-gray-300 text-xs text-center">Config</span>
         </button>
       </div>
+
+      {/* Gráfico de Gastos Mensais */}
+      <MonthlyExpensesChart expenses={recentExpenses} />
 
       {/* Recent Expenses */}
       <div>

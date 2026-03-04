@@ -8,6 +8,7 @@ import AllExpenses from "../AllExpenses";
 import { TopCategoriesWidget } from "./TopCategoriesWidget";
 import { SavingsGoalWidget } from "./SavingsGoalWidget";
 import { ExpenseItem } from "../../ExpenseItem";
+import MonthlyExpensesChart from "../MonthlyExpensesChart";
 import { STYLES } from "../../../constants/expenses";
 import { DEFAULT_EXPENSES } from "../../../data/defaultExpenses";
 import { useOnNavigate } from "../../../contexts/navigate";
@@ -146,7 +147,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-white text-base font-semibold">
-                        Gastos Mensais
+                        Patrimônio Atual
                       </h3>
                       <p className="text-gray-400 text-xs mt-0.5 flex justify-start">
                         Meta: R$3,200.00
@@ -180,6 +181,9 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                     </div>
                   </div>
                 </button>
+
+                {/* Gráfico de Gastos Mensais */}
+                <MonthlyExpensesChart expenses={expenses} />
 
                 {/* Recent Transactions */}
                 <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">

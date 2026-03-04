@@ -39,6 +39,7 @@ export const EXPENSE_RECURRENCE = {
 
 // Opções de filtros de data
 export const DATE_FILTER_OPTIONS = {
+  all: "Todos",
   "7days": "Últimos 7 dias",
   "30days": "Últimos 30 dias",
   custom: "Intervalo Personalizado",

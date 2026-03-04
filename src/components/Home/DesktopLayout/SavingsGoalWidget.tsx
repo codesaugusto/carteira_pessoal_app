@@ -41,18 +41,18 @@ export const SavingsGoalWidget = ({
         </div>
       </div>
 
-      <p className="text-white text-sm md:text-sm font-bold md:py mb-2 md:mb-3 font-poppins">
-        Meta de Economia
-      </p>
-      <h3 className="hidden md:flex text-white font-semibold text-base md:text-sm md:mb-2 font-poppins">
-        {goalName}
-      </h3>
-      <p className="text-white text-4xl md:text-lg font-bold mb-6 md:mb-1 font-poppins">
-        R${current.toLocaleString()}{" "}
-        <span className="text-green-100 text-sm md:text-sm">
-          / R${goal.toLocaleString()}
-        </span>
-      </p>
+      <div className="gap-1 flex flex-col">
+        
+        <h3 className="hidden md:flex text-white font-bold text-base md:text-md font-poppins">
+          {goalName}
+        </h3>
+        <p className="text-white text-4xl md:text-lg font-bold font-poppins">
+          R${current.toLocaleString()}{" "}
+          <span className="text-green-100 text-sm md:text-sm">
+            / R${goal.toLocaleString()}{" "}
+          </span>
+        </p>
+      </div>
 
       <div className="w-full bg-green-800/30 rounded-full h-2 md:h-1.5 mb-4 md:mb-2">
         <div
@@ -66,8 +66,8 @@ export const SavingsGoalWidget = ({
       </div>
       <div className="flex justify-between w-full">
         <div className=" font-poppins">
-          <p className="text-green-100 text-sm md:text-xs font-medium">
-            {spendPercentage}% ALCANÇADO
+          <p className="text-white text-sm md:text-xs font-medium">
+            {spendPercentage}% alcançado
           </p>
         </div>
 
