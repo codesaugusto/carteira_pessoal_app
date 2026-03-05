@@ -15,7 +15,7 @@ const DesktopCategories = () => {
   );
 
   return (
-    <div className="flex-1 h-screen overflow-y-auto font-poppins hide-scrollbar">
+    <div className="font-poppins custom-scrollbar overflow-y-auto">
       <div className="p-5">
         {/* Header */}
         <div className="flex justify-between items-start mb-6">

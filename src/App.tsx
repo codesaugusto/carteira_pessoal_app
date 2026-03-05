@@ -10,12 +10,16 @@ import Config from "./components/Config/Config";
 import { DesktopSidebar } from "./components/Sidebar/DesktopSidebar";
 import { NotificationProvider } from "./providers/notifications";
 import { OnNavigateProvider } from "./contexts/navigate";
+import { SidebarProvider, useSidebar } from "./contexts/sidebar";
 
-function App() {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [configInitialPage] = useState<"menu" | "perfil" | "editar-perfil">(
-    "menu",
-  );
+interface AppContentProps {
+  currentPage: number;
+  onNavigate: (page: number) => void;
+  configInitialPage: "menu" | "perfil" | "editar-perfil";
+}
+
+function AppContent({ currentPage, configInitialPage }: AppContentProps) {
+  const { isCollapsed } = useSidebar();
 
   const renderPage = () => {
     switch (currentPage) {
@@ -35,23 +39,44 @@ function App() {
   };
 
   return (
+    <div className="min-h-screen bg-gray-950">
+      {/* Desktop Sidebar */}
+      <DesktopSidebar currentPage={currentPage} />
+
+      {/* Main Content */}
+      <div
+        className={`transition-all duration-400 overflow-y-auto max-h-[calc(100vh-1rem)] custom-scrollbar ${
+          isCollapsed ? "md:ml-20" : "md:ml-64"
+        }`}
+      >
+        <Header />
+        <div className="pt-28">{renderPage()}</div>
+      </div>
+
+      {/* Mobile Bottom Nav - Hidden on md and above */}
+      <div className="md:hidden">
+        <BottomNav />
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [configInitialPage] = useState<"menu" | "perfil" | "editar-perfil">(
+    "menu",
+  );
+
+  return (
     <NotificationProvider>
       <OnNavigateProvider onNavigate={setCurrentPage}>
-        <div className="min-h-screen bg-gray-950">
-          {/* Desktop Sidebar */}
-          <DesktopSidebar currentPage={currentPage} />
-
-          {/* Main Content */}
-          <div className="md:ml-64">
-            <Header />
-            {renderPage()}
-          </div>
-
-          {/* Mobile Bottom Nav - Hidden on md and above */}
-          <div className="md:hidden">
-            <BottomNav />
-          </div>
-        </div>
+        <SidebarProvider>
+          <AppContent
+            currentPage={currentPage}
+            onNavigate={setCurrentPage}
+            configInitialPage={configInitialPage}
+          />
+        </SidebarProvider>
       </OnNavigateProvider>
     </NotificationProvider>
   );

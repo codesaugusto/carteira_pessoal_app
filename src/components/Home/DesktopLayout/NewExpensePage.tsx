@@ -120,7 +120,7 @@ const NewExpensePage = ({ onBack, onSave }: NewExpensePageProps) => {
   };
 
   return (
-    <div className="flex-1 h-screen pb-32 overflow-y-auto font-poppins hide-scrollbar bg-gray-950">
+    <div className="font-poppins custom-scrollbar bg-gray-950 pb-32 overflow-y-auto">
       {/* Header */}
       <div className="bg-gradient-to-b from-green-950/30 to-gray-950 sticky top-0 z-10 border-b border-green-500/30 backdrop-blur-sm">
         <div className="p-4">

@@ -19,8 +19,15 @@ export const SavingsGoalWidget = ({
   const [spendPercentage] = useState(68); // Valor padrão até integrar com backend
 
   return (
-    <button
+    <div
+      role="button"
       onClick={() => onNavigate?.(3)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onNavigate?.(3);
+        }
+      }}
+      tabIndex={0}
       className="flex flex-col items-start w-full bg-gradient-to-br from-green-600 to-green-700 md:!bg-gray-800/30 md:!from-gray-800/30 md:!to-gray-800/30 md:rounded-xl rounded-3xl px-5 py-8 md:p-4 relative overflow-hidden hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer"
     >
       <div className="absolute top-2 right-7 md:hidden">
@@ -42,7 +49,10 @@ export const SavingsGoalWidget = ({
       </div>
 
       <div className="gap-1 flex flex-col">
-        
+        <p className="text-gray-400 text-md font-bold font-poppins">
+          Meta de Economia
+        </p>
+
         <h3 className="hidden md:flex text-white font-bold text-base md:text-md font-poppins">
           {goalName}
         </h3>
@@ -78,6 +88,6 @@ export const SavingsGoalWidget = ({
           Gerenciar
         </button>
       </div>
-    </button>
+    </div>
   );
 };

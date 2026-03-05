@@ -46,7 +46,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
           }}
         />
       ) : (
-        <div className="flex-1 h-screen overflow-y-auto font-poppins hide-scrollbar">
+        <div className="font-poppins custom-scrollbar overflow-y-auto">
           <div className="p-5">
             {/* Header */}
             <div className="flex justify-between items-center mb-6">
@@ -99,6 +99,9 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
               </div>
             </div>
 
+            {/* Gráfico de Gastos Mensais */}
+            <MonthlyExpensesChart expenses={expenses} />
+
             {/* Main Grid - 2 columns */}
             <div className="grid grid-cols-3 gap-4 select-none">
               {/* Left Column - 2/3 width */}
@@ -144,14 +147,11 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                   onClick={() => onNavigate?.(3)}
                   className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer w-full flex flex-col"
                 >
-                  <div className="flex justify-between items-start mb-4">
+                  <div className="flex justify-between items-start mb-1">
                     <div>
-                      <h3 className="text-white text-base font-semibold">
+                      <h3 className="text-white text-base font-semibold pt-2">
                         Patrimônio Atual
                       </h3>
-                      <p className="text-gray-400 text-xs mt-0.5 flex justify-start">
-                        Meta: R$3,200.00
-                      </p>
                     </div>
                     <div className="text-right">
                       <p className="text-green-500 text-lg font-bold">{65}%</p>
@@ -181,9 +181,6 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                     </div>
                   </div>
                 </button>
-
-                {/* Gráfico de Gastos Mensais */}
-                <MonthlyExpensesChart expenses={expenses} />
 
                 {/* Recent Transactions */}
                 <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">

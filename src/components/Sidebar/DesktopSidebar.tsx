@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { useOnNavigate } from "../../contexts/navigate/useOnNavigate";
+import { useSidebar } from "@/contexts/sidebar/useSidebar";
 
 interface DesktopSidebarProps {
   currentPage: number;
 }
 
 export const DesktopSidebar = ({ currentPage }: DesktopSidebarProps) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { isCollapsed, setIsCollapsed } = useSidebar();
   const onNavigate = useOnNavigate();
 
   const menuItems = [

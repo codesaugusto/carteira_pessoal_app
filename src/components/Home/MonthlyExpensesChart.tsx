@@ -109,82 +109,13 @@ export const MonthlyExpensesChart = ({
         <p className="text-sm text-slate-400">
           Acompanhe seus gastos ao longo dos meses
         </p>
-
-        {/* Filtro de Anos */}
-        <div className="flex gap-4 mt-4 items-end">
-          <div>
-            <label className="block text-xs text-slate-400 mb-2">
-              De (ano):
-            </label>
-            <div className="relative">
-              <select
-                value={startYear as number}
-                onChange={(e) => setStartYear(parseInt(e.target.value))}
-                className="appearance-none bg-gray-700 text-white px-3 pr-10 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:border-green-500"
-              >
-                {uniqueYears.map((year) => (
-                  <option key={year as number} value={year as number}>
-                    {year as number}
-                  </option>
-                ))}
-              </select>
-              <svg
-                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-200"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 8l4 4 4-4"
-                  strokeWidth={1.85}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs text-slate-400 mb-2">
-              Até (ano):
-            </label>
-            <div className="relative">
-              <select
-                value={endYear as number}
-                onChange={(e) => setEndYear(parseInt(e.target.value))}
-                className="appearance-none bg-gray-700 text-white px-3 pr-10 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:border-green-500"
-              >
-                {uniqueYears.map((year) => (
-                  <option key={year as number} value={year as number}>
-                    {year as number}
-                  </option>
-                ))}
-              </select>
-              <svg
-                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-200"
-                viewBox="0 0 20 20"
-                fill="none"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  d="M6 8l4 4 4-4"
-                  strokeWidth={1.85}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div className="bg-slate-800/50 rounded-xl p-4 mb-6">
-        <ResponsiveContainer width="100%" height={500}>
+      <div className="w-full flex bg-slate-800/50 rounded-xl p-4 mb-6">
+        <ResponsiveContainer width="100%" height={450}>
           <BarChart
             data={monthlyData}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis
@@ -222,30 +153,100 @@ export const MonthlyExpensesChart = ({
             />
           </BarChart>
         </ResponsiveContainer>
+
+        <div className="flex flex-col w-1/5 gap-4">
+          <p className="font-semibold font-poppins text-white text-xl flex items-start justify-start pl-2.5">
+            Indicativos
+          </p>
+          <div className="bg-slate-800/50 rounded-xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Total no período</p>
+            <p className="text-lg font-bold text-white">
+              R$ {totalExpenses.toFixed(2)}
+            </p>
+          </div>
+          <div className="bg-slate-800/50 rounded-xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Média mensal</p>
+            <p className="text-lg font-bold text-white">
+              R$ {averageMonthly.toFixed(2)}
+            </p>
+          </div>
+          <div className="bg-slate-800/50 rounded-xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Total de despesas</p>
+            <p className="text-lg font-bold text-white">{totalCount}</p>
+          </div>
+          <div className="bg-slate-800/50 rounded-xl p-4">
+            <p className="text-xs text-slate-400 mb-1">Mês com maior gasto</p>
+            <p className="text-lg font-bold text-white">
+              R$ {highestMonth.total.toFixed(2)}
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-slate-800/50 rounded-xl p-4">
-          <p className="text-xs text-slate-400 mb-1">Total no período</p>
-          <p className="text-lg font-bold text-white">
-            R$ {totalExpenses.toFixed(2)}
-          </p>
+      {/* Filtro de Anos */}
+      <div className="flex gap-4 mt-4 items-end">
+        <div>
+          <label className="block text-xs text-slate-400 mb-2">De (ano):</label>
+          <div className="relative">
+            <select
+              value={startYear as number}
+              onChange={(e) => setStartYear(parseInt(e.target.value))}
+              className="appearance-none bg-gray-700 text-white px-3 pr-10 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:border-green-500"
+            >
+              {uniqueYears.map((year) => (
+                <option key={year as number} value={year as number}>
+                  {year as number}
+                </option>
+              ))}
+            </select>
+            <svg
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-200"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M6 8l4 4 4-4"
+                strokeWidth={1.85}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </div>
-        <div className="bg-slate-800/50 rounded-xl p-4">
-          <p className="text-xs text-slate-400 mb-1">Média mensal</p>
-          <p className="text-lg font-bold text-white">
-            R$ {averageMonthly.toFixed(2)}
-          </p>
-        </div>
-        <div className="bg-slate-800/50 rounded-xl p-4">
-          <p className="text-xs text-slate-400 mb-1">Total de despesas</p>
-          <p className="text-lg font-bold text-white">{totalCount}</p>
-        </div>
-        <div className="bg-slate-800/50 rounded-xl p-4">
-          <p className="text-xs text-slate-400 mb-1">Mês com maior gasto</p>
-          <p className="text-lg font-bold text-white">
-            R$ {highestMonth.total.toFixed(2)}
-          </p>
+
+        <div>
+          <label className="block text-xs text-slate-400 mb-2">
+            Até (ano):
+          </label>
+          <div className="relative">
+            <select
+              value={endYear as number}
+              onChange={(e) => setEndYear(parseInt(e.target.value))}
+              className="appearance-none bg-gray-700 text-white px-3 pr-10 py-2 rounded-lg border border-gray-600 text-sm focus:outline-none focus:border-green-500"
+            >
+              {uniqueYears.map((year) => (
+                <option key={year as number} value={year as number}>
+                  {year as number}
+                </option>
+              ))}
+            </select>
+            <svg
+              className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-200"
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                d="M6 8l4 4 4-4"
+                strokeWidth={1.85}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </div>
       </div>
     </div>

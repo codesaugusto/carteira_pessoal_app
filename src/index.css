@@ -7,6 +7,10 @@ body {
   background-color: #030712;
 }
 
+html {
+  overflow: hidden;
+}
+
 @theme {
   --font-poppins: "Poppins", sans-serif;
 }
@@ -24,33 +28,48 @@ body {
 }
 
 /* Custom scrollbar styling for the application */
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+.custom-scrollbar::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
-html::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track {
-  background: #0f172a;
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #030712;
 }
 
-html::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb {
+.custom-scrollbar::-webkit-scrollbar-thumb {
   background: #10b981;
   border-radius: 4px;
   transition: background 0.2s ease;
 }
 
-html::-webkit-scrollbar-thumb:hover,
-body::-webkit-scrollbar-thumb:hover {
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #34d399;
+}
+
+/* Main content scrollbar */
+.scroll-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 5px;
+  transition: background 0.2s ease;
+}
+
+.scroll-content::-webkit-scrollbar-thumb:hover {
   background: #34d399;
 }
 
 /* Firefox scrollbar */
 html,
 body {
-  scrollbar-color: #10b981 #0f172a;
+  scrollbar-color: #10b981 #030712;
   scrollbar-width: thin;
 }
 
