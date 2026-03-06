@@ -43,8 +43,12 @@ export const MetaCard = ({ meta, onClick }: MetaCardProps) => {
         <div className="mb-3">
           <div className="w-full bg-gray-700/50 rounded-full h-2 mb-2">
             <div
-              className="bg-gradient-to-r from-green-500 to-green-400 rounded-full h-2 transition-all duration-500"
-              style={{ width: `${Math.min(percentage, 100)}%` }}
+              className="animate-progress bg-gradient-to-r from-green-500 to-green-400 rounded-full h-2 transition-all duration-500"
+              style={
+                {
+                  "--progress-width": `${Math.min(percentage, 100)}%`,
+                } as React.CSSProperties
+              }
             />
           </div>
           <div className="flex justify-between items-center">

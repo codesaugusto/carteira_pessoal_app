@@ -50,8 +50,12 @@ export const CategoryCard = ({ category, onClick }: CategoryCardProps) => {
       <div className="w-full">
         <div className="w-full bg-gray-700/50 rounded-full h-1.5">
           <div
-            className="bg-gradient-to-r from-green-500 to-green-400 h-1.5 rounded-full transition-all"
-            style={{ width: `${category.percentage}%` }}
+            className="animate-progress bg-gradient-to-r from-green-500 to-green-400 h-1.5 rounded-full transition-all"
+            style={
+              {
+                "--progress-width": `${category.percentage}%`,
+              } as React.CSSProperties
+            }
           ></div>
         </div>
         <p className="text-gray-400 text-xs mt-1 text-center">

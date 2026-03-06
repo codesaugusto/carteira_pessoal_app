@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { type Expense } from "../../../types/expense";
 import ExpenseDetailModal from "../ExpenseDetailModal";
 import NewExpenseModal from "../NewExpenseModal";
@@ -30,6 +30,49 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
   // const spendPercentage = data?.percentage || 65;
   const [spendPercentage] = useState(65); // Valor padrão até integrar com backend
   const onNavigate = useOnNavigate();
+
+  // Refs para ativar animações ao scroll
+  const balanceCardRef = useRef<HTMLButtonElement>(null);
+  const patrimonioCardRef = useRef<HTMLButtonElement>(null);
+  const recentTransactionsRef = useRef<HTMLDivElement>(null);
+  const savingsGoalRef = useRef<HTMLDivElement>(null);
+  const topCategoriesRef = useRef<HTMLDivElement>(null);
+
+  // Intersection Observer para animações ao scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const progressBar = entry.target.querySelector(
+              "[class*='animate-progress']",
+            ) as HTMLElement;
+            if (progressBar) {
+              progressBar.classList.remove("animate-progress");
+              // Trigger reflow para reiniciar a animação
+              void progressBar.offsetWidth;
+              progressBar.classList.add("animate-progress");
+            }
+            // Não remover o observer para permitir re-animação ao se deslocar
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: "0px",
+      },
+    );
+
+    // Observar todos os elementos com refs
+    if (balanceCardRef.current) observer.observe(balanceCardRef.current);
+    if (patrimonioCardRef.current) observer.observe(patrimonioCardRef.current);
+    if (recentTransactionsRef.current)
+      observer.observe(recentTransactionsRef.current);
+    if (savingsGoalRef.current) observer.observe(savingsGoalRef.current);
+    if (topCategoriesRef.current) observer.observe(topCategoriesRef.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   const expenses =
     recentExpenses.length > 0 ? recentExpenses : DEFAULT_EXPENSES;
@@ -108,6 +151,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
               <div className="col-span-2 space-y-4">
                 {/* Total Balance Card */}
                 <button
+                  ref={balanceCardRef}
                   onClick={() => onNavigate?.(2)}
                   className="bg-gray-800/50 w-full flex flex-col rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-transform cursor-pointer"
                 >
@@ -144,6 +188,7 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
 
                 {/* Monthly Spend */}
                 <button
+                  ref={patrimonioCardRef}
                   onClick={() => onNavigate?.(3)}
                   className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm hover:scale-101 active:scale-100 duration-75 transition-normal cursor-pointer w-full flex flex-col"
                 >
@@ -183,7 +228,10 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
                 </button>
 
                 {/* Recent Transactions */}
-                <div className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm">
+                <div
+                  ref={recentTransactionsRef}
+                  className="bg-gray-800/50 rounded-xl p-4 backdrop-blur-sm"
+                >
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-white text-base font-semibold">
                       Compras Recentes
@@ -213,10 +261,10 @@ const DesktopHome = ({ recentExpenses = [] }: DesktopHomeProps) => {
 
               {/* Right Column - 1/3 width */}
               <div className="sticky top-0 h-fit flex flex-col items-center justify-start gap-4">
-                <div className="w-full">
+                <div ref={savingsGoalRef} className="w-full">
                   <SavingsGoalWidget onClick={() => onNavigate?.(3)} />
                 </div>
-                <div className="w-full">
+                <div ref={topCategoriesRef} className="w-full">
                   <TopCategoriesWidget onClick={() => onNavigate?.(1)} />
                 </div>
               </div>

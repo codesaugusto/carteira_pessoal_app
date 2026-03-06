@@ -46,7 +46,7 @@ const DesktopCarteira = () => {
         <div className="grid grid-cols-3 gap-3 mb-6">
           {/* Total Balance */}
           <button
-            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 duration-75 transition-normal cursor-pointer`}
           >
             <div className="flex justify-between items-start">
               <div>
@@ -80,7 +80,7 @@ const DesktopCarteira = () => {
 
           {/* Average Balance */}
           <button
-            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 duration-75 transition-normal cursor-pointer`}
           >
             <div className="flex justify-between items-start">
               <div>
@@ -114,7 +114,7 @@ const DesktopCarteira = () => {
 
           {/* Wallets Count */}
           <button
-            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 duration-75 transition-normal cursor-pointer`}
           >
             <div className="flex justify-between items-start">
               <div>

@@ -50,7 +50,7 @@ const Metas = () => {
 
           {/* Overall Stats */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <button className="bg-gray-800/50 rounded-xl flex flex-col hover:scale-101 active:scale-97 duration-75 transition-transform cursor-pointer items-start p-4 border border-gray-700/30 backdrop-blur-sm">
+            <button className="bg-gray-800/50 rounded-xl flex flex-col hover:scale-101 duration-75 transition-transform cursor-pointer items-start p-4 border border-gray-700/30 backdrop-blur-sm">
               <p className="text-gray-400 text-xs mb-2">Total em Metas</p>
               <h2 className="text-2xl font-bold text-white">
                 R${totalGoal.toLocaleString()}
@@ -60,7 +60,7 @@ const Metas = () => {
               </p>
             </button>
 
-            <button className="bg-gray-800/50 rounded-xl flex flex-col hover:scale-101 active:scale-97 duration-75 transition-transform cursor-pointer items-start p-4 border border-gray-700/30 backdrop-blur-sm">
+            <button className="bg-gray-800/50 rounded-xl flex flex-col hover:scale-101 duration-75 transition-transform cursor-pointer items-start p-4 border border-gray-700/30 backdrop-blur-sm">
               <p className="text-gray-400 text-xs mb-2">Valor Acumulado</p>
               <h2 className="text-2xl font-bold text-green-500">
                 R${totalSaved.toLocaleString()}
@@ -70,7 +70,7 @@ const Metas = () => {
               </p>
             </button>
 
-            <button className="bg-gray-800/50 flex flex-col items-start rounded-xl p-4 border hover:scale-101 active:scale-97 duration-75 transition-transform cursor-pointer border-gray-700/30 backdrop-blur-sm">
+            <button className="bg-gray-800/50 flex flex-col items-start rounded-xl p-4 border hover:scale-101 duration-75 transition-transform cursor-pointer border-gray-700/30 backdrop-blur-sm">
               <p className="text-gray-400 text-xs mb-2">Ainda faltam</p>
               <h2 className="text-2xl font-bold text-orange-500">
                 R${(totalGoal - totalSaved).toLocaleString()}

@@ -47,7 +47,7 @@ const DesktopCategories = () => {
         <div className="grid grid-cols-3 gap-4 mb-6">
           {/* Total Spent */}
           <button
-            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 duration-75 transition-normal cursor-pointer`}
           >
             <div className="flex justify-between items-start">
               <div>
@@ -81,7 +81,7 @@ const DesktopCategories = () => {
 
           {/* Categories Count */}
           <button
-            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 duration-75 transition-normal cursor-pointer`}
           >
             <div className="flex justify-between items-start">
               <div>
@@ -115,7 +115,7 @@ const DesktopCategories = () => {
 
           {/* Average Usage */}
           <button
-            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 active:scale-99 duration-75 transition-normal cursor-pointer`}
+            className={`${STYLES.card} flex flex-col justify-between hover:scale-102 duration-75 transition-normal cursor-pointer`}
           >
             <div className="flex justify-between items-start">
               <div>
